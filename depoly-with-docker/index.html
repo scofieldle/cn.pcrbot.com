@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  
+    <meta name="description" content="为公主连接设计的开源聊天应答服务">
+  
+
+  
+    <meta name="keywords" content="公主连接,公主连结,机器人,pcrbot">
+  
+
+  
+    <meta name="author" content="pcrbot">
+  
+
+  
+
+  
+
+  <title>使用 Docker 部署 HoshinoBot 与 yobot | pcrbot</title>
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+  <div class="root-container">
+    <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          pcrbot
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">HOME</a></li>
+        
+          <li class="navbar-list-item"><a href="https://github.com/pcrbot" target="_blank" rel="noopener">GitHub</a></li>
+        
+          <li class="navbar-list-item"><a href="https://github.com/pcrbot/www.pcrbot.com/new/master/source/_posts/0?filename=new_post_name.md&value=---%0Atitle%3A+%E6%97%A0%E6%A0%87%E9%A2%98%0Aauthor%3A+%E6%9C%AA%E7%9F%A5%E4%BD%9C%E8%80%85%0A---%0A%0A%E5%9C%A8%E6%AD%A4%E4%BD%BF%E7%94%A8+markdown+%E7%BC%96%E5%86%99%E5%86%85%E5%AE%B9" target="_blank" rel="noopener">投稿</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    
+<!-- header container -->
+<header class="header-container post">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      
+        <div class="post-image" style="background-image: url(/images/banner-shizuru.jpg)"></div>
+      
+
+      <div class="post-text">
+        <div class="type-wrap">
+          
+        </div>
+        <h1 class="title-wrap">使用 Docker 部署 HoshinoBot 与 yobot</h1>
+        <h2 class="title-sub-wrap">
+          <strong>pcrbot</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-11-08T04:00:00.000Z" itemprop="datePublished">2020-11-08</time>
+  </a>
+
+        </h2>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+
+<div class="body-container">
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
+
+      <section class="article-entry">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="什么是-Docker"><a href="#什么是-Docker" class="headerlink" title="什么是 Docker"></a>什么是 Docker</h3><p>Docker 是一种容器方案，将多个运行环境分离，就像虚拟机一样，但原理不同。容器比虚拟机更轻便，只将环境隔离并不需要虚拟硬件，性能损耗极小。</p>
+<h3 id="为什么要用-Docker"><a href="#为什么要用-Docker" class="headerlink" title="为什么要用 Docker"></a>为什么要用 Docker</h3><p>方便部署、方便迁移、干净、安全。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>一个服务器（家庭、学校、公司的宽带一般没有公网不建议使用）</li>
+<li>一个域名（如果服务器在大陆区域，那么域名必须备案。港澳台与境外服务器可以不用备案）</li>
+<li>将一个域名指向你的服务器（建议使用一个二级域名）</li>
+</ul>
+<h2 id="部署教程"><a href="#部署教程" class="headerlink" title="部署教程"></a>部署教程</h2><p>（以下教程均以 Linux 服务器为例，新手建议选择 Ubuntu 最新版）</p>
+<h3 id="安装必要软件"><a href="#安装必要软件" class="headerlink" title="安装必要软件"></a>安装必要软件</h3><h4 id="安装-Docker"><a href="#安装-Docker" class="headerlink" title="安装 Docker"></a>安装 Docker</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载安装脚本</span></span><br><span class="line"><span class="comment"># 此方法适用于 `CentOS 7` `Debian 9/10` `Fedora 30/31` `Ubuntu 16/18/20`，其他系统请自行搜索方法手动安装</span></span><br><span class="line">curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 docker</span></span><br><span class="line">sudo sh get-docker.sh</span><br><span class="line"><span class="comment"># 国内服务器可改用下面这个指令，即可选择国内源下载</span></span><br><span class="line"><span class="comment"># sudo sh get-docker.sh --mirror Aliyun</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装完成，删除安装脚本</span></span><br><span class="line">rm get-docker.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果使用的是非 root 用户，需要将自己加入 docker 组中，可能需要重新登录后才能获取权限</span></span><br><span class="line"><span class="comment"># （使用非 root 用户进行日常操作是个好习惯）</span></span><br><span class="line"><span class="comment"># 使用 root 的勇士可以无视下面这个步骤</span></span><br><span class="line">sudo usermod -aG docker myname  <span class="comment"># 将 myname 替换为自己的用户名</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="安装其他工具"><a href="#安装其他工具" class="headerlink" title="安装其他工具"></a>安装其他工具</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu / Debian</span></span><br><span class="line">sudo apt install -y wget vim</span><br><span class="line"><span class="comment"># Centos / RHEL</span></span><br><span class="line">sudo yum install -y wget vim</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>关于文本编辑器，我个人推荐使用更全能的 ssh 工具，在本地完成文本编辑任务。vim 适合以前没有鼠标、没有组合快捷键的年代，不过现在已经有更好的选择了。</p>
+<p>如果要在本地修改文件，请尽量不要使用 Windows 自带的记事本，请先安装编程专用文本编辑器，比如这个：<a href="http://pan.yobot.win/share/Windows%E5%B7%A5%E5%85%B7/Notepad3.exe" target="_blank" rel="noopener">点击下载notepad3</a></p>
+</blockquote>
+<h3 id="部署过程"><a href="#部署过程" class="headerlink" title="部署过程"></a>部署过程</h3><h4 id="准备-Docker"><a href="#准备-Docker" class="headerlink" title="准备 Docker"></a>准备 Docker</h4><p>创建 docker 网络，我们后面使用的多个容器将通过这个网络进行连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create qqbot</span><br></pre></td></tr></table></figure>
+
+<p>现在可以创建一个工作目录，存放后续的文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/qqbot</span><br><span class="line"><span class="built_in">cd</span> ~/qqbot</span><br><span class="line"><span class="comment"># 当然你可以改成其他你喜欢的目录</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="下载并导入镜像"><a href="#下载并导入镜像" class="headerlink" title="下载并导入镜像"></a>下载并导入镜像</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载镜像包</span></span><br><span class="line">wget https://down.yu.al/others/qqbot/hoshino/hyg.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压，此处使用 gzip，只解压一层获取 tar 文件</span></span><br><span class="line">gzip -d hyg.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入镜像</span></span><br><span class="line">docker load -i hyg.tar</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入完成，删除镜像包</span></span><br><span class="line">rm hyg.tar</span><br></pre></td></tr></table></figure>
+
+<p>此时可使用 <code>docker images</code> 指令查看已导入的镜像，此镜像包中包含了 <code>hoshinobot</code>、<code>yobot/yobot</code>、<code>gocqhttp</code>、<code>caddy</code> 四个镜像</p>
+<h4 id="配置-HoshinoBot"><a href="#配置-HoshinoBot" class="headerlink" title="配置 HoshinoBot"></a>配置 HoshinoBot</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 取出 HoshinoBot 源码到当前目录</span></span><br><span class="line">docker run --rm -v <span class="variable">$&#123;PWD&#125;</span>:/tmp/Hoshino hoshinobot mv /HoshinoBot/ /tmp/Hoshino/Hoshino</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果使用的是非 root 用户，修改这些归属</span></span><br><span class="line">sudo chown -R myname Hoshino  <span class="comment"># 将 myname 替换为自己的用户名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 HoshinoBot 配置文件</span></span><br><span class="line">vim Hoshino/hoshino/config/__bot__.py</span><br><span class="line"><span class="comment"># 如果你不太熟悉 vim，也可以将文件取回本地后修改</span></span><br></pre></td></tr></table></figure>
+
+<p>配置文件中，需要将 <code>HOST</code> 设置为 <code>0.0.0.0</code>，<code>SUPERUSERS</code> 设置为主人的QQ号，其他部分可按注释自行编辑。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 HoshinoBot</span></span><br><span class="line">docker run -d -v <span class="variable">$&#123;PWD&#125;</span>/Hoshino:/HoshinoBot --name hoshino --network qqbot hoshinobot</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置-yobot"><a href="#配置-yobot" class="headerlink" title="配置 yobot"></a>配置 yobot</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建 yobot 配置文件</span></span><br><span class="line">mkdir yobot_data</span><br><span class="line">touch yobot_data/yobot_config.json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑 yobot 配置文件</span></span><br><span class="line">vim yobot_data/yobot_config.json</span><br></pre></td></tr></table></figure>
+
+<p>配置文件中填写如下内容，其中的值替换为你自己的域名</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"public_address"</span>: <span class="string">"https://your-own-domain-here.com/"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动 yobot</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 yobot 并将数据存放在当前目录下 yobot_data 文件夹</span></span><br><span class="line">docker run -d -v <span class="variable">$&#123;PWD&#125;</span>/yobot_data:/yobot/yobot_data --name yobot --network qqbot yobot/yobot</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置-gocqhttp"><a href="#配置-gocqhttp" class="headerlink" title="配置 gocqhttp"></a>配置 gocqhttp</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成配置文件，并将数据存放在当前目录下 gocqhttp_data 文件夹</span></span><br><span class="line">docker run --rm -v <span class="variable">$&#123;PWD&#125;</span>/gocqhttp_data:/data gocqhttp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果使用的是非 root 用户，修改这些归属</span></span><br><span class="line">sudo chown -R myname gocqhttp_data  <span class="comment"># 将 myname 替换为自己的用户名</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 gocqhttp 配置文件</span></span><br><span class="line">vim gocqhttp_data/config.json</span><br></pre></td></tr></table></figure>
+
+<p>这里我们需要修改如下的部分，对照下面的注释修改，请注意不要复制注释</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"uin"</span>: <span class="number">0</span>,  <span class="comment">// 作为机器人的 QQ 号</span></span><br><span class="line">  <span class="attr">"password"</span>: <span class="string">""</span>,  <span class="comment">// 作为机器人的 QQ 密码</span></span><br><span class="line">  <span class="attr">"encrypt_password"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"password_encrypted"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="attr">"enable_db"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"access_token"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="attr">"relogin"</span>: &#123;</span><br><span class="line">    <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"relogin_delay"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"max_relogin_times"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"_rate_limit"</span>: &#123;</span><br><span class="line">    <span class="attr">"enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"frequency"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"bucket_size"</span>: <span class="number">1</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"post_message_format"</span>: <span class="string">"string"</span>,</span><br><span class="line">  <span class="attr">"ignore_invalid_cqcode"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"force_fragmented"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"heartbeat_interval"</span>: <span class="number">5</span>,</span><br><span class="line">  <span class="attr">"http_config"</span>: &#123;</span><br><span class="line">    <span class="attr">"enabled"</span>: <span class="literal">false</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"ws_config"</span>: &#123;</span><br><span class="line">    <span class="attr">"enabled"</span>: <span class="literal">false</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"web_ui"</span>: &#123;</span><br><span class="line">    <span class="attr">"enabled"</span>: <span class="literal">false</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"ws_reverse_servers"</span>: [  <span class="comment">// 这里是与bot连接的部分</span></span><br><span class="line">    <span class="comment">// 第一个连接，连接到 hoshinobot</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"reverse_url"</span>: <span class="string">"ws://hoshino:8080/ws/"</span>,  <span class="comment">// 可以填写容器名</span></span><br><span class="line">      <span class="attr">"reverse_reconnect_interval"</span>: <span class="number">3000</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 第二个连接，连接到 yobot</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"reverse_url"</span>: <span class="string">"ws://yobot:9222/ws/"</span>,</span><br><span class="line">      <span class="attr">"reverse_reconnect_interval"</span>: <span class="number">3000</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改完毕，启动 gocqhttp</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 gocqhttp 并将数据存放在当前目录下 gocqhttp_data 文件夹</span></span><br><span class="line"><span class="comment"># 注意这里使用的是 `-it` 因为可能会出现登录验证需要交互处理</span></span><br><span class="line">docker run -it -v <span class="variable">$&#123;PWD&#125;</span>/gocqhttp_data:/data --name gocqhttp --network qqbot gocqhttp</span><br><span class="line"><span class="comment"># 启动后，如果出现登录验证，请按照提示进行验证。</span></span><br></pre></td></tr></table></figure>
+
+<p>登录成功后，按下连续组合键 <code>ctrl-P , ctrl-Q</code>，将此容器挂到后台</p>
+<p>至此，你的 bot 已经可以开始对话了，尝试发送 <code>在？</code>（验证hoshinobot） 或 <code>version</code>（验证yobot）</p>
+<h4 id="配置网络服务器"><a href="#配置网络服务器" class="headerlink" title="配置网络服务器"></a>配置网络服务器</h4><p>为了访问 yobot 网页，我们需要配置网络服务器</p>
+<p>如果你已经安装过 <code>nginx</code>，请阅读下方 nginx 部分<br>如果你尚未安装 <code>nginx</code> 或其他网络服务器，请阅读下方 caddy 部分</p>
+<h5 id="Nginx-反向代理"><a href="#Nginx-反向代理" class="headerlink" title="Nginx 反向代理"></a>Nginx 反向代理</h5><p>请事先准备好 SSL 证书（不会申请的话，建议换后面的 caddy 自动申请）</p>
+<p>如果你的 Nginx 不在容器内，则无法自动获取 yobot 地址，需要手动查询地址，记下此 IP 填写到 nginx 配置文件中</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 yobot 容器的 IP</span></span><br><span class="line">docker inspect yobot | grep IPAddress</span><br></pre></td></tr></table></figure>
+
+<p>请在已有的 nginx 配置文件中加入以下内容</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> example.com;  <span class="comment"># 此处修改为你的域名</span></span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$host</span><span class="variable">$request_uri</span>;  <span class="comment"># 将 http 请求重定向至 https</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl http2;</span><br><span class="line">    <span class="attribute">listen</span> [::]:<span class="number">443</span> ssl http2;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">server_name</span> example.com;  <span class="comment"># 此处修改为你的域名</span></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /home/www/ssl/ssl_certificate.crt;  <span class="comment"># 此处修改为你的证书路径</span></span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /home/www/ssl/ssl_certificate.key;  <span class="comment"># 此处修改为你的私钥路径</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 一些 SSL 安全参数，可以视情况修改</span></span><br><span class="line">    <span class="attribute">ssl_session_timeout</span> <span class="number">1d</span>;</span><br><span class="line">    <span class="attribute">ssl_session_cache</span> shared:MozSSL:<span class="number">1m</span>;  <span class="comment"># about 4000 sessions</span></span><br><span class="line">    <span class="attribute">ssl_session_tickets</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># curl https://ssl-config.mozilla.org/ffdhe2048.txt &gt; /path/to/dhparam</span></span><br><span class="line">    <span class="comment"># ssl_dhparam /path/to/dhparam;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># intermediate configuration</span></span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1.<span class="number">2</span> TLSv1.<span class="number">3</span>;</span><br><span class="line">    <span class="attribute">ssl_ciphers</span> ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># HSTS (ngx_http_headers_module is required) (63072000 seconds)</span></span><br><span class="line">    <span class="attribute">add_header</span> Strict-Transport-Security <span class="string">"max-age=63072000"</span> always;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># OCSP stapling</span></span><br><span class="line">    <span class="attribute">ssl_stapling</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_stapling_verify</span> <span class="literal">on</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 反向代理</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> /</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://yobot:9222;  <span class="comment"># 反向代理，如果你的 Nginx 不在容器中，请将此 `yobot` 替换为刚刚查询到的 IP 地址</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;  <span class="comment"># 传递用户IP</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 阻止 cqhttp 接口被访问</span></span><br><span class="line">    <span class="attribute">location</span> /ws/ &#123;</span><br><span class="line">        <span class="attribute">deny</span> all;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重新加载 nginx 配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<h5 id="Caddy-反向代理"><a href="#Caddy-反向代理" class="headerlink" title="Caddy 反向代理"></a>Caddy 反向代理</h5><p>请先将域名指向你的服务器，否则无法自动申请证书</p>
+<p>caddy 使用非常简单，只需创建一个 <code>Caddyfile</code>（没有扩展名），填写如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">example.com &#123;  # 此处修改为你的域名</span><br><span class="line"></span><br><span class="line">    respond &#x2F;ws&#x2F;* &quot;Forbidden&quot; 403 &#123;</span><br><span class="line">        close</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    reverse_proxy * http:&#x2F;&#x2F;yobot:9222 &#123;</span><br><span class="line">        header_up +X-Real-IP &#123;remote&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 docker 启动 caddy</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v <span class="variable">$&#123;PWD&#125;</span>/Caddyfile:/etc/caddy/Caddyfile --name caddy --network qqbot -p 80:80 -p 443:443 caddy</span><br></pre></td></tr></table></figure>
+
+<p>现在打开浏览器访问你的域名，就能看到 yobot 主页了</p>
+<h3 id="添加更多-Hoshino-插件"><a href="#添加更多-Hoshino-插件" class="headerlink" title="添加更多 Hoshino 插件"></a>添加更多 Hoshino 插件</h3><p>编写中……</p>
+
+      </section>
+
+      <section class="article-footer">
+        
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-list">
+    
+    
+      <div id="article-nav-older" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(/images/banner-misato.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/pcrbot-introduction/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
+            
+              PCRBOT 入门
+            
+          </p>
+        </article>
+      </div>
+    
+  </div>
+</nav>
+
+      </section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2020 <a href="/" target="_blank">pcrbot</a></p>
+
+    
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+    
+    <!--
+    <div class="footer-container__texts">
+      <p>ヽ｀、ヽ｀｀、ヽ｀ヽ｀、、ヽ｀ヽ、ヽ｀、ヽ｀｀、ヽ、｀｀、、ヽ｀ヽ、｀｀、、ヽ｀ヽ、｀ヽ、｀ヽ、｀ヽ</p>
+      <p>｀、ヽ｀｀、ヽ、｀｀｀、｀、ヽ🌙｀｀、｀ヽ｀ヽ、ヽ｀、ヽ｀ヽ、ヽ｀、ヽ｀ヽ、ヽ｀、ヽ｀｀、｀ヽ、｀</p>
+      <p>｀、｀｀、｀、ヽ｀｀、、ヽヽ｀、｀ヽ｀ヽ、ヽ｀、ヽ｀ヽ、ヽ｀、、、ヽヽ、｀｀、、ヽ｀、ヽ｀｀、ヽ｀ヽ｀</p>
+      <p>ヽ｀、｀｀、｀、ヽ｀｀、、ヽヽ｀、｀、、ヽヽ、｀Time waits for on one 🍓｀、、ヽ｀、ヽ｀｀、ヽ｀ヽ｀</p>
+      <p>｀ヽ｀｀、ヽ｀ヽ｀、、ヽ｀ヽ｀ヽ｀ヽ、ヽ｀、ヽ｀｀、ヽ、｀｀、、ヽ｀ヽ、｀｀、、ヽ｀ヽ、｀ヽ、｀ヽ、｀ヽ</p>
+    </div>
+    -->
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+  <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+  <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+</svg> 
+  </div>
+
+  
+  
+
+
+
+
+<!-- waterfall 瀑布流 start -->
+
+<script src="/lib/waterfall.min.js"></script>
+
+<script type="text/javascript">
+
+const waterfalls = document.querySelectorAll(".waterfall-container");
+
+if (waterfalls && waterfalls.length > 0) {
+  waterfalls.forEach((waterfall, index) => {
+    let cls = "waterfall-container-" + index;
+    waterfall.classList.add(cls);
+    initWaterfall(cls, waterfall);
+  });
+}
+
+function initWaterfall(selector, el) {
+  const options = {};
+  if (Object.keys(el.dataset).length > 0) {
+    for (let k in el.dataset) {
+      options[k] = el.dataset[k];
+    }
+  }
+  waterfall(`.${selector}`, options);
+}
+</script>
+<!-- waterfall 瀑布流 end -->
+
+
+  <!-- zoom start -->
+  
+<script src="/lib/zoom.min.js"></script>
+
+  <script type="text/javascript">
+    document.querySelector(".article-content") && zoom(".article-content");
+  </script>
+  <!-- zoom end -->
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
