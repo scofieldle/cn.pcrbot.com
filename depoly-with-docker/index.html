@@ -128,7 +128,9 @@
       
 
       <section class="article-entry">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="什么是-Docker"><a href="#什么是-Docker" class="headerlink" title="什么是 Docker"></a>什么是 Docker</h3><p>Docker 是一种容器方案，将多个运行环境分离，就像虚拟机一样，但原理不同。容器比虚拟机更轻便，只将环境隔离并不需要虚拟硬件，性能损耗极小。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>不推荐</strong>使用 Docker 部署 <code>HoshinoBot</code>，因为 <code>HoshinoBot</code> 与 <code>gocqhttp</code> 需要通过文件系统传递一些数据且没有统一标准，一些社区插件对这一行为采取了不同的措施，使用 Docker 部署会导致这些插件出现预料意外的结果。</p>
+<p>推荐参考<a href="https://blog.di.he.cn/2020/09/22/deploy-a-priconne-bot-on-linux/" target="_blank" rel="noopener">这篇教程</a>进行普通部署。</p>
+<h3 id="什么是-Docker"><a href="#什么是-Docker" class="headerlink" title="什么是 Docker"></a>什么是 Docker</h3><p>Docker 是一种容器方案，将多个运行环境分离，就像虚拟机一样，但原理不同。容器比虚拟机更轻便，只将环境隔离并不需要虚拟硬件，性能损耗极小。</p>
 <h3 id="为什么要用-Docker"><a href="#为什么要用-Docker" class="headerlink" title="为什么要用 Docker"></a>为什么要用 Docker</h3><p>方便部署、方便迁移、干净、安全。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li>一个服务器（家庭、学校、公司的宽带一般没有公网不建议使用）</li>
@@ -347,6 +349,21 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
         
 <nav class="card-container card-article-nav">
   <div class="card-list">
+    
+      <div id="article-nav-newer" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(/images/banner-chieru.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/HoshinoBot-plugins-index/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              HoshinoBot 作品索引
+            
+          </p>
+        </article>
+      </div>
     
     
       <div id="article-nav-older" class="card-item img">
