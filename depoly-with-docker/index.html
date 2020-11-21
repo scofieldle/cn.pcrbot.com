@@ -128,14 +128,12 @@
       
 
       <section class="article-entry">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>不推荐</strong>使用 Docker 部署 <code>HoshinoBot</code>，因为 <code>HoshinoBot</code> 与 <code>gocqhttp</code> 需要通过文件系统传递一些数据且没有统一标准，一些社区插件对这一行为采取了不同的措施，使用 Docker 部署会导致这些插件出现预料意外的结果。</p>
-<p>推荐参考<a href="https://blog.di.he.cn/2020/09/22/deploy-a-priconne-bot-on-linux/" target="_blank" rel="noopener">这篇教程</a>进行普通部署。</p>
-<h3 id="什么是-Docker"><a href="#什么是-Docker" class="headerlink" title="什么是 Docker"></a>什么是 Docker</h3><p>Docker 是一种容器方案，将多个运行环境分离，就像虚拟机一样，但原理不同。容器比虚拟机更轻便，只将环境隔离并不需要虚拟硬件，性能损耗极小。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="什么是-Docker"><a href="#什么是-Docker" class="headerlink" title="什么是 Docker"></a>什么是 Docker</h3><p>Docker 是一种容器方案，将多个运行环境分离，就像虚拟机一样，但原理不同。容器比虚拟机更轻便，只将环境隔离并不需要虚拟硬件，性能损耗极小。</p>
 <h3 id="为什么要用-Docker"><a href="#为什么要用-Docker" class="headerlink" title="为什么要用 Docker"></a>为什么要用 Docker</h3><p>方便部署、方便迁移、干净、安全。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li>一个服务器（家庭、学校、公司的宽带一般没有公网不建议使用）</li>
 <li>一个域名（如果服务器在大陆区域，那么域名必须备案。港澳台与境外服务器可以不用备案）</li>
-<li>将一个域名指向你的服务器（建议使用一个二级域名）</li>
+<li>将一到两个域名指向你的服务器（yobot 使用一个域名，HoshinoBot 的第三方插件可能需要一个域名）</li>
 </ul>
 <h2 id="部署教程"><a href="#部署教程" class="headerlink" title="部署教程"></a>部署教程</h2><p>（以下教程均以 Linux 服务器为例，新手建议选择 Ubuntu 最新版）</p>
 <h3 id="安装必要软件"><a href="#安装必要软件" class="headerlink" title="安装必要软件"></a>安装必要软件</h3><h4 id="安装-Docker"><a href="#安装-Docker" class="headerlink" title="安装 Docker"></a>安装 Docker</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 下载安装脚本</span>
@@ -156,20 +154,23 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 <span class="token function">sudo</span> <span class="token function">usermod</span> -aG docker myname  <span class="token comment" spellcheck="true"># 将 myname 替换为自己的用户名</span></code></pre>
 <h4 id="安装其他工具"><a href="#安装其他工具" class="headerlink" title="安装其他工具"></a>安装其他工具</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># Ubuntu / Debian</span>
 <span class="token function">sudo</span> apt <span class="token function">install</span> -y <span class="token function">wget</span> vim
-<span class="token comment" spellcheck="true"># Centos / RHEL</span>
+<span class="token comment" spellcheck="true"># CentOS / RHEL</span>
 <span class="token function">sudo</span> yum <span class="token function">install</span> -y <span class="token function">wget</span> vim</code></pre>
 <blockquote>
 <p>关于文本编辑器，我个人推荐使用更全能的 ssh 工具，在本地完成文本编辑任务。vim 适合以前没有鼠标、没有组合快捷键的年代，不过现在已经有更好的选择了。</p>
 <p>如果要在本地修改文件，请尽量不要使用 Windows 自带的记事本，请先安装编程专用文本编辑器，比如这个：<a href="http://pan.yobot.win/share/Windows%E5%B7%A5%E5%85%B7/Notepad3.exe" target="_blank" rel="noopener">点击下载notepad3</a></p>
 </blockquote>
-<h3 id="部署过程"><a href="#部署过程" class="headerlink" title="部署过程"></a>部署过程</h3><h4 id="准备-Docker"><a href="#准备-Docker" class="headerlink" title="准备 Docker"></a>准备 Docker</h4><p>创建 docker 网络，我们后面使用的多个容器将通过这个网络进行连接</p>
+<h3 id="部署过程"><a href="#部署过程" class="headerlink" title="部署过程"></a>部署过程</h3><h4 id="准备一个随机密钥"><a href="#准备一个随机密钥" class="headerlink" title="准备一个随机密钥"></a>准备一个随机密钥</h4><p>你可以用任何方式生成一个随机字符串，比如</p>
+<pre class=" language-bash"><code class="language-bash">openssl rand -base64 12</code></pre>
+<p>请记下这个密钥，后面会用到</p>
+<h4 id="准备-Docker"><a href="#准备-Docker" class="headerlink" title="准备 Docker"></a>准备 Docker</h4><p>创建 docker 网络，我们后面使用的多个容器将通过这个网络进行连接</p>
 <pre class=" language-bash"><code class="language-bash">docker network create qqbot</code></pre>
 <p>现在可以创建一个工作目录，存放后续的文件</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token function">mkdir</span> -p ~/qqbot
 <span class="token function">cd</span> ~/qqbot
 <span class="token comment" spellcheck="true"># 当然你可以改成其他你喜欢的目录</span></code></pre>
 <h4 id="下载并导入镜像"><a href="#下载并导入镜像" class="headerlink" title="下载并导入镜像"></a>下载并导入镜像</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 下载镜像包</span>
-<span class="token function">wget</span> https://down.yu.al/others/qqbot/hoshino/hyg.tar.gz
+<span class="token function">wget</span> https://down.yobot.club/images/hyg.tar.gz
 
 <span class="token comment" spellcheck="true"># 解压，此处使用 gzip，只解压一层获取 tar 文件</span>
 <span class="token function">gzip</span> -d hyg.tar.gz
@@ -179,48 +180,52 @@ docker load -i hyg.tar
 
 <span class="token comment" spellcheck="true"># 导入完成，删除镜像包</span>
 <span class="token function">rm</span> hyg.tar</code></pre>
-<p>此时可使用 <code>docker images</code> 指令查看已导入的镜像，此镜像包中包含了 <code>hoshinobot</code>、<code>yobot/yobot</code>、<code>gocqhttp</code>、<code>caddy</code> 四个镜像</p>
+<p>此时可使用 <code>docker images</code> 指令查看已导入的镜像，此镜像包中包含了 <code>hoshinobot</code>、<code>yobot/yobot:pypy</code>、<code>gocqhttp:0.9.31-fix2</code>、<code>caddy</code> 四个镜像</p>
 <h4 id="配置-HoshinoBot"><a href="#配置-HoshinoBot" class="headerlink" title="配置 HoshinoBot"></a>配置 HoshinoBot</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 取出 HoshinoBot 源码到当前目录</span>
 docker run --rm -v <span class="token variable">${PWD}</span>:/tmp/Hoshino hoshinobot <span class="token function">mv</span> /HoshinoBot/ /tmp/Hoshino/Hoshino
 
-<span class="token comment" spellcheck="true"># 如果使用的是非 root 用户，修改这些归属</span>
+<span class="token comment" spellcheck="true"># 如果使用的是非 root 用户，需要修改这些归属</span>
+<span class="token comment" spellcheck="true"># root 用户可跳过此句</span>
 <span class="token function">sudo</span> <span class="token function">chown</span> -R myname Hoshino  <span class="token comment" spellcheck="true"># 将 myname 替换为自己的用户名</span>
 
 <span class="token comment" spellcheck="true"># 修改 HoshinoBot 配置文件</span>
 vim Hoshino/hoshino/config/__bot__.py
 <span class="token comment" spellcheck="true"># 如果你不太熟悉 vim，也可以将文件取回本地后修改</span></code></pre>
-<p>配置文件中，需要将 <code>HOST</code> 设置为 <code>0.0.0.0</code>，<code>SUPERUSERS</code> 设置为主人的QQ号，其他部分可按注释自行编辑。</p>
+<p>配置文件中，需要修改下面三个字段，其他部分可按注释自行编辑。</p>
+<pre class=" language-python"><code class="language-python">HOST <span class="token operator">=</span> <span class="token string">'0.0.0.0'</span>
+ACCESS_TOKEN <span class="token operator">=</span> <span class="token string">'xxxxxx'</span>  <span class="token comment" spellcheck="true"># 此处填写刚才生成的密钥</span>
+SUPERUSERS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'000000'</span><span class="token punctuation">]</span>  <span class="token comment" spellcheck="true"># 此处填写主人的QQ号</span></code></pre>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 启动 HoshinoBot</span>
 docker run -d -v <span class="token variable">${PWD}</span>/Hoshino:/HoshinoBot --name hoshino --network qqbot hoshinobot</code></pre>
-<h4 id="配置-yobot"><a href="#配置-yobot" class="headerlink" title="配置 yobot"></a>配置 yobot</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 创建 yobot 配置文件</span>
-<span class="token function">mkdir</span> yobot_data
-<span class="token function">touch</span> yobot_data/yobot_config.json
-
-<span class="token comment" spellcheck="true"># 编辑 yobot 配置文件</span>
-vim yobot_data/yobot_config.json</code></pre>
-<p>配置文件中填写如下内容，其中的值替换为你自己的域名</p>
-<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
-    <span class="token property">"public_address"</span><span class="token operator">:</span> <span class="token string">"https://your-own-domain-here.com/"</span>
-<span class="token punctuation">}</span></code></pre>
-<p>启动 yobot</p>
+<h4 id="配置-yobot"><a href="#配置-yobot" class="headerlink" title="配置 yobot"></a>配置 yobot</h4><p>启动 yobot</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 启动 yobot 并将数据存放在当前目录下 yobot_data 文件夹</span>
-docker run -d -v <span class="token variable">${PWD}</span>/yobot_data:/yobot/yobot_data --name yobot --network qqbot yobot/yobot</code></pre>
+docker run -d \
+           -v <span class="token variable">${PWD}</span>/yobot_data:/yobot/yobot_data \
+           -e YOBOT_PUBLIC_ADDRESS<span class="token operator">=</span><span class="token string">"https://your-own-domain-here.com/"</span> \  <span class="token comment" spellcheck="true"># 将域名改为你自己的域名</span>
+           -e YOBOT_ACCESS_TOKEN<span class="token operator">=</span><span class="token string">"xxxxxx"</span> \  <span class="token comment" spellcheck="true"># 此处填写刚才生成的密钥</span>
+           --name yobot \
+           --network qqbot \
+           yobot/yobot:pypy</code></pre>
 <h4 id="配置-gocqhttp"><a href="#配置-gocqhttp" class="headerlink" title="配置 gocqhttp"></a>配置 gocqhttp</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 生成配置文件，并将数据存放在当前目录下 gocqhttp_data 文件夹</span>
 docker run --rm -v <span class="token variable">${PWD}</span>/gocqhttp_data:/data gocqhttp
 
 <span class="token comment" spellcheck="true"># 如果使用的是非 root 用户，修改这些归属</span>
+<span class="token comment" spellcheck="true"># root 用户可跳过此句</span>
 <span class="token function">sudo</span> <span class="token function">chown</span> -R myname gocqhttp_data  <span class="token comment" spellcheck="true"># 将 myname 替换为自己的用户名</span>
 
 <span class="token comment" spellcheck="true"># 修改 gocqhttp 配置文件</span>
-vim gocqhttp_data/config.json</code></pre>
-<p>这里我们需要修改如下的部分，对照下面的注释修改，请注意不要复制注释</p>
+vim gocqhttp_data/config.hjson</code></pre>
+<p>这里我们需要修改如下的部分，对照下面的注释修改</p>
+<blockquote>
+<p><code>go-cqhttp</code> 使用了 <code>hjson</code> 格式的配置文件，所以格式更加随意，不必感到困惑</p>
+</blockquote>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
   <span class="token property">"uin"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>  // 作为机器人的 QQ 号
   <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>  // 作为机器人的 QQ 密码
   <span class="token property">"encrypt_password"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
   <span class="token property">"password_encrypted"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
   <span class="token property">"enable_db"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-  <span class="token property">"access_token"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+  <span class="token property">"access_token"</span><span class="token operator">:</span> <span class="token string">"xxxxxx"</span><span class="token punctuation">,</span>  // 此处填写刚才生成的密钥
   <span class="token property">"relogin"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"enabled"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
     <span class="token property">"relogin_delay"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
@@ -234,6 +239,7 @@ vim gocqhttp_data/config.json</code></pre>
   <span class="token property">"post_message_format"</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
   <span class="token property">"ignore_invalid_cqcode"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
   <span class="token property">"force_fragmented"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">"use_sso_address"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
   <span class="token property">"heartbeat_interval"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
   <span class="token property">"http_config"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
     <span class="token property">"enabled"</span><span class="token operator">:</span> <span class="token boolean">false</span>
@@ -248,7 +254,7 @@ vim gocqhttp_data/config.json</code></pre>
     // 第一个连接，连接到 hoshinobot
     <span class="token punctuation">{</span>
       <span class="token property">"enabled"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-      <span class="token property">"reverse_url"</span><span class="token operator">:</span> <span class="token string">"ws://hoshino:8080/ws/"</span><span class="token punctuation">,</span>  // 可以填写容器名
+      <span class="token property">"reverse_url"</span><span class="token operator">:</span> <span class="token string">"ws://hoshino:8080/ws/"</span><span class="token punctuation">,</span>  // ip 用容器名即可
       <span class="token property">"reverse_reconnect_interval"</span><span class="token operator">:</span> <span class="token number">3000</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
     // 第二个连接，连接到 yobot
@@ -260,18 +266,26 @@ vim gocqhttp_data/config.json</code></pre>
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
 <p>修改完毕，启动 gocqhttp</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 启动 gocqhttp 并将数据存放在当前目录下 gocqhttp_data 文件夹</span>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 启动 gocqhttp 并将数据存放在当前目录下 gocqhttp_data 文件夹，同时挂载整个 /HoshinoBot 以共享静态资源</span>
 <span class="token comment" spellcheck="true"># 注意这里使用的是 `-it` 因为可能会出现登录验证需要交互处理</span>
-docker run -it -v <span class="token variable">${PWD}</span>/gocqhttp_data:/data -v <span class="token variable">${PWD}</span>/Hoshino/res:/HoshinoBot/res --name gocqhttp --network qqbot gocqhttp
+docker run -it \
+           -v <span class="token variable">${PWD}</span>/gocqhttp_data:/data \
+           -v <span class="token variable">${PWD}</span>/Hoshino:/HoshinoBot \
+           --name gocqhttp \
+           --network qqbot \
+           gocqhttp:0.9.31-fix2
 <span class="token comment" spellcheck="true"># 启动后，如果出现登录验证，请按照提示进行验证。</span></code></pre>
 <p>登录成功后，按下连续组合键 <code>ctrl-P , ctrl-Q</code>，将此容器挂到后台</p>
 <p>至此，你的 bot 已经可以开始对话了，尝试发送 <code>在？</code>（验证hoshinobot） 或 <code>version</code>（验证yobot）</p>
 <h4 id="配置网络服务器"><a href="#配置网络服务器" class="headerlink" title="配置网络服务器"></a>配置网络服务器</h4><p>为了访问 yobot 网页，我们需要配置网络服务器</p>
 <p>如果你已经安装过 <code>nginx</code>，请阅读下方 nginx 部分<br>如果你尚未安装 <code>nginx</code> 或其他网络服务器，请阅读下方 caddy 部分</p>
-<h5 id="Nginx-反向代理"><a href="#Nginx-反向代理" class="headerlink" title="Nginx 反向代理"></a>Nginx 反向代理</h5><p>请事先准备好 SSL 证书（不会申请的话，建议换后面的 caddy 自动申请）</p>
+<p>这里的例子只给出 yobot 的代理方法，如需代理 HoshinoBot 则用换一个域名再操作一次即可。</p>
+<h5 id="Nginx-反向代理"><a href="#Nginx-反向代理" class="headerlink" title="Nginx 反向代理"></a>Nginx 反向代理</h5><p>如果你已经安装过 <code>nginx</code>，请参考此部分，并忽略下方 caddy 部分</p>
+<p>请事先准备好 SSL 证书</p>
 <p>如果你的 Nginx 不在容器内，则无法自动获取 yobot 地址，需要手动查询地址，记下此 IP 填写到 nginx 配置文件中</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 查看 yobot 容器的 IP</span>
-docker inspect yobot <span class="token operator">|</span> <span class="token function">grep</span> IPAddress</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 查看 yobot 容器的 ip</span>
+docker inspect yobot <span class="token operator">|</span> <span class="token function">grep</span> IPAddress
+<span class="token comment" spellcheck="true"># 记下这个 ip，稍后会使用</span></code></pre>
 <p>请在已有的 nginx 配置文件中加入以下内容</p>
 <pre class=" language-nginx"><code class="language-nginx"><span class="token keyword">server</span> <span class="token punctuation">{</span>
     <span class="token keyword">listen</span> <span class="token number">80</span><span class="token punctuation">;</span>
@@ -311,7 +325,7 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
 
     <span class="token keyword">location</span> <span class="token operator">/</span>
     <span class="token punctuation">{</span>
-        <span class="token keyword">proxy_pass</span> <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>yobot<span class="token punctuation">:</span><span class="token number">9222</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true"># 反向代理，如果你的 Nginx 不在容器中，请将此 `yobot` 替换为刚刚查询到的 IP 地址</span>
+        <span class="token keyword">proxy_pass</span> <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>yobot<span class="token punctuation">:</span><span class="token number">9222</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true"># 反向代理，请将此 `yobot` 替换为刚刚查询到的 IP 地址</span>
         <span class="token keyword">proxy_set_header</span> X<span class="token operator">-</span>Real<span class="token operator">-</span>IP <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true"># 传递用户IP</span>
     <span class="token punctuation">}</span>
 
@@ -319,6 +333,10 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
     <span class="token keyword">location</span> <span class="token operator">/</span>ws<span class="token operator">/</span> <span class="token punctuation">{</span>
         <span class="token keyword">deny</span> all<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true"># 日志记录</span>
+    <span class="token comment" spellcheck="true"># access_log /var/log/nginx/yobot.log;</span>
+    <span class="token comment" spellcheck="true"># error_log /var/log/nginx/yobot.error.log;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>重新加载 nginx 配置</p>
 <pre class=" language-bash"><code class="language-bash">nginx -s reload</code></pre>
@@ -338,6 +356,11 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
 <pre class=" language-bash"><code class="language-bash">docker run -d -v <span class="token variable">${PWD}</span>/Caddyfile:/etc/caddy/Caddyfile --name caddy --network qqbot -p 80:80 -p 443:443 caddy</code></pre>
 <p>现在打开浏览器访问你的域名，就能看到 yobot 主页了</p>
 <h3 id="添加更多-Hoshino-插件"><a href="#添加更多-Hoshino-插件" class="headerlink" title="添加更多 Hoshino 插件"></a>添加更多 Hoshino 插件</h3><p>HoshinoBot 有很多社区插件，可以在<a href="https://github.com/pcrbot/HoshinoBot-plugins-index/blob/master/README.md" target="_blank" rel="noopener">插件索引</a>中查看，安装插件方法请参考插件自身的介绍页。</p>
+<p>注意：在安装依赖时，需要使用 <code>pip3</code>，我们需要改为 <code>docker exec hoshinobot pip3</code></p>
+<p>（可选）我们也可以为这个命令设置一个别名方便记忆</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 为这一长串命令设置一个临时别名</span>
+<span class="token function">alias</span> hsn-pip3<span class="token operator">=</span><span class="token string">'docker exec hoshinobot pip3'</span></code></pre>
+<p>（可选）将其写入 <code>~/.bashrc</code> 结尾，即可永久生效</p>
 
       </section>
 
