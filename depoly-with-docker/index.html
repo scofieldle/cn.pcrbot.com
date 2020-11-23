@@ -151,11 +151,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 <span class="token comment" spellcheck="true"># 如果使用的是非 root 用户，需要将自己加入 docker 组中，可能需要重新登录后才能获取权限</span>
 <span class="token comment" spellcheck="true"># （使用非 root 用户进行日常操作是个好习惯）</span>
 <span class="token comment" spellcheck="true"># 使用 root 的勇士可以无视下面这个步骤</span>
-<span class="token function">sudo</span> <span class="token function">usermod</span> -aG docker myname  <span class="token comment" spellcheck="true"># 将 myname 替换为自己的用户名</span></code></pre>
-<h4 id="安装其他工具"><a href="#安装其他工具" class="headerlink" title="安装其他工具"></a>安装其他工具</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># Ubuntu / Debian</span>
-<span class="token function">sudo</span> apt <span class="token function">install</span> -y <span class="token function">wget</span> vim
-<span class="token comment" spellcheck="true"># CentOS / RHEL</span>
-<span class="token function">sudo</span> yum <span class="token function">install</span> -y <span class="token function">wget</span> vim</code></pre>
+<span class="token function">sudo</span> <span class="token function">usermod</span> -aG docker <span class="token variable"><span class="token variable">$(</span><span class="token function">whoami</span><span class="token variable">)</span></span></code></pre>
 <blockquote>
 <p>关于文本编辑器，我个人推荐使用更全能的 ssh 工具，在本地完成文本编辑任务。vim 适合以前没有鼠标、没有组合快捷键的年代，不过现在已经有更好的选择了。</p>
 <p>如果要在本地修改文件，请尽量不要使用 Windows 自带的记事本，请先安装编程专用文本编辑器，比如这个：<a href="http://pan.yobot.win/share/Windows%E5%B7%A5%E5%85%B7/Notepad3.exe" target="_blank" rel="noopener">点击下载notepad3</a></p>
@@ -169,8 +165,17 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 <pre class=" language-bash"><code class="language-bash"><span class="token function">mkdir</span> -p ~/qqbot
 <span class="token function">cd</span> ~/qqbot
 <span class="token comment" spellcheck="true"># 当然你可以改成其他你喜欢的目录</span></code></pre>
-<h4 id="下载并导入镜像"><a href="#下载并导入镜像" class="headerlink" title="下载并导入镜像"></a>下载并导入镜像</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 下载镜像包</span>
-<span class="token function">wget</span> https://down.yobot.club/images/hyg.tar.gz
+<h4 id="下载并导入镜像"><a href="#下载并导入镜像" class="headerlink" title="下载并导入镜像"></a>下载并导入镜像</h4><p>拉取镜像</p>
+<pre class=" language-bash"><code class="language-bash">docker pull docker.pcr.works/hoshinobot
+docker pull docker.pcr.works/gocqhttp:0.9.31-fix2
+docker pull yobot/yobot:pypy
+docker pull caddy</code></pre>
+<p>如果国内服务器连接 Docker 速度较慢，可以改用下面的方法</p>
+<details>
+  <summary>国内加速方法（点击展开）</summary>
+
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 下载镜像包</span>
+<span class="token function">wget</span> https://down.yu.al/ting/bucket/4504D09A39C9C842F2BEC15F5D078408 -O hyg.tar.gz
 
 <span class="token comment" spellcheck="true"># 解压，此处使用 gzip，只解压一层获取 tar 文件</span>
 <span class="token function">gzip</span> -d hyg.tar.gz
@@ -180,13 +185,15 @@ docker load -i hyg.tar
 
 <span class="token comment" spellcheck="true"># 导入完成，删除镜像包</span>
 <span class="token function">rm</span> hyg.tar</code></pre>
-<p>此时可使用 <code>docker images</code> 指令查看已导入的镜像，此镜像包中包含了 <code>hoshinobot</code>、<code>yobot/yobot:pypy</code>、<code>gocqhttp:0.9.31-fix2</code>、<code>caddy</code> 四个镜像</p>
+</details>
+
+<p>此时可使用 <code>docker images</code> 指令查看已导入的镜像，此镜像包中包含了 <code>docker.pcr.works/hoshinobot</code>、<code>yobot/yobot:pypy</code>、<code>docker.pcr.works/gocqhttp:0.9.31-fix2</code>、<code>caddy</code> 四个镜像</p>
 <h4 id="配置-HoshinoBot"><a href="#配置-HoshinoBot" class="headerlink" title="配置 HoshinoBot"></a>配置 HoshinoBot</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 取出 HoshinoBot 源码到当前目录</span>
-docker run --rm -v <span class="token variable">${PWD}</span>:/tmp/Hoshino hoshinobot <span class="token function">mv</span> /HoshinoBot/ /tmp/Hoshino/Hoshino
+docker run --rm -v <span class="token variable">${PWD}</span>:/tmp/Hoshino docker.pcr.works/hoshinobot <span class="token function">mv</span> /HoshinoBot/ /tmp/Hoshino/Hoshino
 
 <span class="token comment" spellcheck="true"># 如果使用的是非 root 用户，需要修改这些归属</span>
 <span class="token comment" spellcheck="true"># root 用户可跳过此句</span>
-<span class="token function">sudo</span> <span class="token function">chown</span> -R myname Hoshino  <span class="token comment" spellcheck="true"># 将 myname 替换为自己的用户名</span>
+<span class="token function">sudo</span> <span class="token function">chown</span> -R <span class="token variable"><span class="token variable">$(</span><span class="token function">whoami</span><span class="token variable">)</span></span> Hoshino
 
 <span class="token comment" spellcheck="true"># 修改 HoshinoBot 配置文件</span>
 vim Hoshino/hoshino/config/__bot__.py
@@ -196,7 +203,7 @@ vim Hoshino/hoshino/config/__bot__.py
 ACCESS_TOKEN <span class="token operator">=</span> <span class="token string">'xxxxxx'</span>  <span class="token comment" spellcheck="true"># 此处填写刚才生成的密钥</span>
 SUPERUSERS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'000000'</span><span class="token punctuation">]</span>  <span class="token comment" spellcheck="true"># 此处填写主人的QQ号</span></code></pre>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 启动 HoshinoBot</span>
-docker run -d -v <span class="token variable">${PWD}</span>/Hoshino:/HoshinoBot --name hoshino --network qqbot hoshinobot</code></pre>
+docker run -d -v <span class="token variable">${PWD}</span>/Hoshino:/HoshinoBot --name hoshino --network qqbot docker.pcr.works/hoshinobot</code></pre>
 <h4 id="配置-yobot"><a href="#配置-yobot" class="headerlink" title="配置 yobot"></a>配置 yobot</h4><p>启动 yobot</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 启动 yobot 并将数据存放在当前目录下 yobot_data 文件夹</span>
 docker run -d \
@@ -207,11 +214,11 @@ docker run -d \
            --network qqbot \
            yobot/yobot:pypy</code></pre>
 <h4 id="配置-gocqhttp"><a href="#配置-gocqhttp" class="headerlink" title="配置 gocqhttp"></a>配置 gocqhttp</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 生成配置文件，并将数据存放在当前目录下 gocqhttp_data 文件夹</span>
-docker run --rm -v <span class="token variable">${PWD}</span>/gocqhttp_data:/data gocqhttp
+docker run --rm -v <span class="token variable">${PWD}</span>/gocqhttp_data:/data docker.pcr.works/gocqhttp:0.9.31-fix2
 
 <span class="token comment" spellcheck="true"># 如果使用的是非 root 用户，修改这些归属</span>
 <span class="token comment" spellcheck="true"># root 用户可跳过此句</span>
-<span class="token function">sudo</span> <span class="token function">chown</span> -R myname gocqhttp_data  <span class="token comment" spellcheck="true"># 将 myname 替换为自己的用户名</span>
+<span class="token function">sudo</span> <span class="token function">chown</span> -R <span class="token variable"><span class="token variable">$(</span><span class="token function">whoami</span><span class="token variable">)</span></span> gocqhttp_data
 
 <span class="token comment" spellcheck="true"># 修改 gocqhttp 配置文件</span>
 vim gocqhttp_data/config.hjson</code></pre>
@@ -273,7 +280,7 @@ docker run -it \
            -v <span class="token variable">${PWD}</span>/Hoshino:/HoshinoBot \
            --name gocqhttp \
            --network qqbot \
-           gocqhttp:0.9.31-fix2
+           docker.pcr.works/gocqhttp:0.9.31-fix2
 <span class="token comment" spellcheck="true"># 启动后，如果出现登录验证，请按照提示进行验证。</span></code></pre>
 <p>登录成功后，按下连续组合键 <code>ctrl-P , ctrl-Q</code>，将此容器挂到后台</p>
 <p>至此，你的 bot 已经可以开始对话了，尝试发送 <code>在？</code>（验证hoshinobot） 或 <code>version</code>（验证yobot）</p>
@@ -302,24 +309,24 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
     <span class="token keyword">ssl_certificate_key</span> <span class="token operator">/</span>home<span class="token operator">/</span>www<span class="token operator">/</span><span class="token keyword">ssl</span><span class="token operator">/</span><span class="token keyword">ssl_certificate</span><span class="token punctuation">.</span>key<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true"># 此处修改为你的私钥路径</span>
 
     <span class="token comment" spellcheck="true"># 一些 SSL 安全参数，可以视情况修改</span>
-    <span class="token keyword">ssl_session_timeout</span> 1d<span class="token punctuation">;</span>
-    <span class="token keyword">ssl_session_cache</span> shared<span class="token punctuation">:</span>MozSSL<span class="token punctuation">:</span>1m<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true"># about 4000 sessions</span>
-    ssl_session_tickets off<span class="token punctuation">;</span>
+        <span class="token keyword">ssl_session_timeout</span> 1d<span class="token punctuation">;</span>
+        <span class="token keyword">ssl_session_cache</span> shared<span class="token punctuation">:</span>MozSSL<span class="token punctuation">:</span>1m<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true"># about 4000 sessions</span>
+        ssl_session_tickets off<span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true"># curl https://ssl-config.mozilla.org/ffdhe2048.txt > /path/to/dhparam</span>
-    <span class="token comment" spellcheck="true"># ssl_dhparam /path/to/dhparam;</span>
+        <span class="token comment" spellcheck="true"># curl https://ssl-config.mozilla.org/ffdhe2048.txt > /path/to/dhparam</span>
+        <span class="token comment" spellcheck="true"># ssl_dhparam /path/to/dhparam;</span>
 
-    <span class="token comment" spellcheck="true"># intermediate configuration</span>
-    <span class="token keyword">ssl_protocols</span> TLSv1<span class="token number">.2</span> TLSv1<span class="token number">.3</span><span class="token punctuation">;</span>
-    <span class="token keyword">ssl_ciphers</span> ECDHE<span class="token operator">-</span>ECDSA<span class="token operator">-</span>AES128<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA256<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES128<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA256<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>ECDSA<span class="token operator">-</span>AES256<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA384<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES256<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA384<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>ECDSA<span class="token operator">-</span>CHACHA20<span class="token operator">-</span>POLY1305<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>RSA<span class="token operator">-</span>CHACHA20<span class="token operator">-</span>POLY1305<span class="token punctuation">:</span>DHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES128<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA256<span class="token punctuation">:</span>DHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES256<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA384<span class="token punctuation">;</span>
-    <span class="token keyword">ssl_prefer_server_ciphers</span> off<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true"># intermediate configuration</span>
+        <span class="token keyword">ssl_protocols</span> TLSv1<span class="token number">.2</span> TLSv1<span class="token number">.3</span><span class="token punctuation">;</span>
+        <span class="token keyword">ssl_ciphers</span> ECDHE<span class="token operator">-</span>ECDSA<span class="token operator">-</span>AES128<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA256<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES128<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA256<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>ECDSA<span class="token operator">-</span>AES256<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA384<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES256<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA384<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>ECDSA<span class="token operator">-</span>CHACHA20<span class="token operator">-</span>POLY1305<span class="token punctuation">:</span>ECDHE<span class="token operator">-</span>RSA<span class="token operator">-</span>CHACHA20<span class="token operator">-</span>POLY1305<span class="token punctuation">:</span>DHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES128<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA256<span class="token punctuation">:</span>DHE<span class="token operator">-</span>RSA<span class="token operator">-</span>AES256<span class="token operator">-</span>GCM<span class="token operator">-</span>SHA384<span class="token punctuation">;</span>
+        <span class="token keyword">ssl_prefer_server_ciphers</span> off<span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true"># HSTS (ngx_http_headers_module is required) (63072000 seconds)</span>
-    <span class="token keyword">add_header</span> Strict<span class="token operator">-</span>Transport<span class="token operator">-</span>Security <span class="token string">"max-age=63072000"</span> always<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true"># HSTS (ngx_http_headers_module is required) (63072000 seconds)</span>
+        <span class="token keyword">add_header</span> Strict<span class="token operator">-</span>Transport<span class="token operator">-</span>Security <span class="token string">"max-age=63072000"</span> always<span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true"># OCSP stapling</span>
-    ssl_stapling on<span class="token punctuation">;</span>
-    ssl_stapling_verify on<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true"># OCSP stapling</span>
+        ssl_stapling on<span class="token punctuation">;</span>
+        ssl_stapling_verify on<span class="token punctuation">;</span>
 
     <span class="token comment" spellcheck="true"># 反向代理</span>
 
