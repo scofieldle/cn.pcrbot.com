@@ -342,6 +342,9 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
 <pre class=" language-bash"><code class="language-bash">nginx -s reload</code></pre>
 <h5 id="Caddy-反向代理"><a href="#Caddy-反向代理" class="headerlink" title="Caddy 反向代理"></a>Caddy 反向代理</h5><p>请先将域名指向你的服务器，否则无法自动申请证书</p>
 <p>caddy 使用非常简单，只需创建一个 <code>Caddyfile</code>（没有扩展名），填写如下内容</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 使用 vim 创建 Caddyfile，也可以用其他你喜欢的方式</span>
+vim ./Caddyfile</code></pre>
+<p>编写内容如下</p>
 <pre class=" language-caddyfile"><code class="language-caddyfile">example.com {  # 此处修改为你的域名
 
     respond /ws/* "Forbidden" 403 {
@@ -353,7 +356,13 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
     }
 }</code></pre>
 <p>使用 docker 启动 caddy</p>
-<pre class=" language-bash"><code class="language-bash">docker run -d -v <span class="token variable">${PWD}</span>/Caddyfile:/etc/caddy/Caddyfile --name caddy --network qqbot -p 80:80 -p 443:443 caddy</code></pre>
+<pre class=" language-bash"><code class="language-bash">docker run -d \
+           -v <span class="token variable">${PWD}</span>/Caddyfile:/etc/caddy/Caddyfile \
+           --name caddy \
+           --network qqbot \
+           -p 80:80 \
+           -p 443:443 \
+           caddy</code></pre>
 <p>现在打开浏览器访问你的域名，就能看到 yobot 主页了</p>
 <h3 id="添加更多-Hoshino-插件"><a href="#添加更多-Hoshino-插件" class="headerlink" title="添加更多 Hoshino 插件"></a>添加更多 Hoshino 插件</h3><p>HoshinoBot 有很多社区插件，可以在<a href="https://github.com/pcrbot/HoshinoBot-plugins-index/blob/master/README.md" target="_blank" rel="noopener">插件索引</a>中查看，安装插件方法请参考插件自身的介绍页。</p>
 <p>注意：在安装依赖时，需要使用 <code>pip3</code>，我们需要改为 <code>docker exec hoshinobot pip3</code></p>
@@ -363,6 +372,34 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
 <p>（可选）将其写入 <code>~/.bashrc</code> 结尾，即可永久生效</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 为这一长串命令设置一个永久别名</span>
 <span class="token keyword">echo</span> <span class="token string">"alias hpip='docker exec hoshinobot pip3'"</span> <span class="token operator">>></span>~/.bashrc</code></pre>
+<p>（可选）安装 <code>hsn</code> 插件管理器</p>
+<blockquote>
+<p>更多信息请参考：<a href="https://github.com/pcrbot/hsn" target="_blank" rel="noopener">https://github.com/pcrbot/hsn</a></p>
+</blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 下载 hsn</span>
+<span class="token function">wget</span> https://github.com/pcrbot/hsn/releases/download/v0.1.4/hsn-v0.1.4-linux-amd64.tar.gz
+<span class="token comment" spellcheck="true"># 国内用户可改为 https://download.fastgit.org/pcrbot/hsn/releases/download/v0.1.4/hsn-v0.1.4-linux-amd64.tar.gz</span>
+
+<span class="token comment" spellcheck="true"># 解压</span>
+<span class="token function">tar</span> zxvf hsn-v0.1.4-linux-amd64.tar.gz
+
+<span class="token comment" spellcheck="true"># 删除压缩包</span>
+<span class="token function">rm</span> hsn-v0.1.4-linux-amd64.tar.gz
+
+<span class="token comment" spellcheck="true"># 给与运行权限</span>
+<span class="token function">chmod</span> +x hsn
+
+<span class="token comment" spellcheck="true"># 移动至运行目录</span>
+<span class="token function">mv</span> hsn /usr/bin/
+
+<span class="token comment" spellcheck="true"># 配置</span>
+hsn <span class="token keyword">set</span> --path<span class="token operator">=</span><span class="token variable">${PWD}</span>/Hoshino
+hsn <span class="token keyword">set</span> -i<span class="token operator">=</span><span class="token string">"https://github.com"</span>
+hsn <span class="token keyword">set</span> --pip<span class="token operator">=</span><span class="token string">"docker exec hoshinobot pip3"</span>
+<span class="token comment" spellcheck="true"># 国内用户可改为执行下面这些配置</span>
+<span class="token comment" spellcheck="true"># hsn set --path=${PWD}/Hoshino</span>
+<span class="token comment" spellcheck="true"># hsn set -i="https://hub.fastgit.org"</span>
+<span class="token comment" spellcheck="true"># hsn set --pip="docker exec hoshinobot pip3 -i https://mirrors.aliyun.com/pypi/simple/"</span></code></pre>
 
       </section>
 
