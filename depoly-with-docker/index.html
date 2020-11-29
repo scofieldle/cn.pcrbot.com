@@ -349,7 +349,7 @@ docker inspect yobot <span class="token operator">|</span> <span class="token fu
     }
 
     reverse_proxy * http://yobot:9222 {
-        header_up +X-Real-IP {remote}
+        header_up +X-Real-IP {remote_host}
     }
 }</code></pre>
 <p>使用 docker 启动 caddy</p>
