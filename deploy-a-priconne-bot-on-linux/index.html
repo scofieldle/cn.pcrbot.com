@@ -185,50 +185,50 @@
 <p>使用 <code>root</code> 账户部署 ? 这么说, 你很勇啊。<br>当然啦, 我超勇的。相信我, 只要不用 root 账户进行不当操作, 那应该是没问题的… ( 大概 )</p>
 <p>本教程默认您使用的是 root 账户, 您也可以创建一个低权限账户并在每个指令前加上 <code>sudo</code> 完成部署。</p>
 <h3 id="安装运行所需环境"><a href="#安装运行所需环境" class="headerlink" title="安装运行所需环境"></a>安装运行所需环境</h3><p>下列指令请一条一条复制, 一段一段复制可能会出现问题。</p>
-<pre class=" language-shell"><code class="language-shell">#CentOS 用户请执行
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#CentOS 用户请执行</span>
 yum -y update
-yum -y groupinstall "Development tools"
-yum -y install wget zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc* libffi-devel make git vim screen
+yum -y groupinstall <span class="token string">"Development tools"</span>
+yum -y <span class="token function">install</span> <span class="token function">wget</span> zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc* libffi-devel <span class="token function">make</span> <span class="token function">git</span> vim <span class="token function">screen</span>
 
-#Debian 、Ubuntu 用户请执行
+<span class="token comment" spellcheck="true">#Debian 、Ubuntu 用户请执行</span>
 apt -y update
-apt -y install build-essential
-apt -y install -y make libssl-dev zlib1g-dev libbz2-dev libpcre3 libpcre3-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libperl-dev libncursesw5-dev xz-utils tk-dev zlib1g libffi-dev liblzma-dev screen git vim openssl gcc</code></pre>
-<h3 id="安装-Python3-8"><a href="#安装-Python3-8" class="headerlink" title="安装 Python3.8"></a>安装 Python3.8</h3><pre class=" language-shell"><code class="language-shell">#Debian 、Ubuntu 用户请先执行
-rm -rf /usr/bin/python3
-rm -rf /usr/bin/pip3
-#此处是删除 Debian 或者 Ubuntu 自带的 Python3 软链, 以便为编译安装的 Python3.8 自动添加进环境变量, 并非卸载服务器自带的 Python3
-#CentOS 7.x 不自带 Python3 所以无需此操作
+apt -y <span class="token function">install</span> build-essential
+apt -y <span class="token function">install</span> -y <span class="token function">make</span> libssl-dev zlib1g-dev libbz2-dev libpcre3 libpcre3-dev libreadline-dev libsqlite3-dev <span class="token function">wget</span> curl llvm libncurses5-dev libperl-dev libncursesw5-dev xz-utils tk-dev zlib1g libffi-dev liblzma-dev <span class="token function">screen</span> <span class="token function">git</span> vim openssl gcc</code></pre>
+<h3 id="安装-Python3-8"><a href="#安装-Python3-8" class="headerlink" title="安装 Python3.8"></a>安装 Python3.8</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#Debian 、Ubuntu 用户请先执行</span>
+<span class="token function">rm</span> -rf /usr/bin/python3
+<span class="token function">rm</span> -rf /usr/bin/pip3
+<span class="token comment" spellcheck="true">#此处是删除 Debian 或者 Ubuntu 自带的 Python3 软链, 以便为编译安装的 Python3.8 自动添加进环境变量, 并非卸载服务器自带的 Python3</span>
+<span class="token comment" spellcheck="true">#CentOS 7.x 不自带 Python3 所以无需此操作</span>
 
-#此处开始安装 Python3.8
-wget https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz
-#境内机器请将这一步的链接替换成 http://repo.huaweicloud.com/python/3.8.6/Python-3.8.6.tgz
-tar xf Python-3.8.6.tgz
-#xf 可比 zxvf 快多了 ( 笑 )
-cd Python-3.8.6
+<span class="token comment" spellcheck="true">#此处开始安装 Python3.8</span>
+<span class="token function">wget</span> https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz
+<span class="token comment" spellcheck="true">#境内机器请将这一步的链接替换成 http://repo.huaweicloud.com/python/3.8.6/Python-3.8.6.tgz</span>
+<span class="token function">tar</span> xf Python-3.8.6.tgz
+<span class="token comment" spellcheck="true">#xf 可比 zxvf 快多了 ( 笑 )</span>
+<span class="token function">cd</span> Python-3.8.6
 
-#↓↓↓ CentOS 用户请执行 ↓↓↓
+<span class="token comment" spellcheck="true">#↓↓↓ CentOS 用户请执行 ↓↓↓</span>
 ./configure
-#↑↑↑ Ubuntu 和 Debian 用户请无视 ↑↑↑
+<span class="token comment" spellcheck="true">#↑↑↑ Ubuntu 和 Debian 用户请无视 ↑↑↑</span>
 
-#↓↓↓ Ubuntu 和 Debian 用户请执行 ↓↓↓
+<span class="token comment" spellcheck="true">#↓↓↓ Ubuntu 和 Debian 用户请执行 ↓↓↓</span>
 ./configure  --enable-optimizations
-#↑↑↑ CentOS 用户请无视 ↑↑↑
+<span class="token comment" spellcheck="true">#↑↑↑ CentOS 用户请无视 ↑↑↑</span>
 
-make&&make install
+<span class="token function">make</span><span class="token operator">&amp;&amp;</span><span class="token function">make</span> <span class="token function">install</span>
 
-pip3 install --upgrade pip
-#境内机器可以加上 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 这个参数加快下载速度</code></pre>
+pip3 <span class="token function">install</span> --upgrade pip
+<span class="token comment" spellcheck="true">#境内机器可以加上 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 这个参数加快下载速度</span></code></pre>
 <p><code>--enable-optimizations</code> 是 Python 编译优化的参数, 编译检查时加上这个参数大约能给 Python 带来 10% 的性能优化。<br>如果 <code>gcc编译器</code> 版本低于 <code>5.4.0</code> , 那么加上这个参数会使 Python 编译失败, CentOS 自带的包管理工具 <code>yum</code> 不能帮您安装 <code>5.4.0</code> 以上的版本, Ubuntu 18.04 和 Debian 10 则分别自带了版本 <code>7.4.0</code> 和 <code>8.3.0</code> 的 <code>gcc编译器</code>。</p>
 <p>您也可以自行为您的 CentOS 服务器升级 <code>gcc编译器</code> , 在编译 gcc 编译器 的时候需要大量时间, 您可自行尝试。</p>
 <h3 id="获取-go-cqhttp"><a href="#获取-go-cqhttp" class="headerlink" title="获取 go-cqhttp"></a>获取 go-cqhttp</h3><p>go-cqhttp 是使用 go 语言对 cqhttp 协议重新实现, 并实现了很多原版 cq-http 没有实现的 api 。<br>四酱老婆好棒！</p>
 <p><strong>go-cqhttp 目前正在快速更新迭代, 本教程给出的链接可能不是最新版。</strong><br>您可以在 <a href="https://github.com/Mrs4s/go-cqhttp/releases" target="_blank" rel="noopener">这里</a> 获取到最新版的下载地址。</p>
-<pre class=" language-shell"><code class="language-shell">cd
-mkdir mirai&&cd mirai
-wget https://github.com/Mrs4s/go-cqhttp/releases/download/v0.9.29/go-cqhttp-v0.9.29-linux-amd64.tar.gz
-tar xf go-cqhttp-v0.9.29-linux-amd64.tar.gz
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span>
+<span class="token function">mkdir</span> mirai<span class="token operator">&amp;&amp;</span><span class="token function">cd</span> mirai
+<span class="token function">wget</span> https://github.com/Mrs4s/go-cqhttp/releases/download/v0.9.29/go-cqhttp-v0.9.29-linux-amd64.tar.gz
+<span class="token function">tar</span> xf go-cqhttp-v0.9.29-linux-amd64.tar.gz
 ./go-cqhttp
-#首次运行 go-cqhttp , 会在当前目录下生成两个文件, 其中 device.json 保存设备信息, config.json 是 go-cqhttp 的配置文件</code></pre>
+<span class="token comment" spellcheck="true">#首次运行 go-cqhttp , 会在当前目录下生成两个文件, 其中 device.json 保存设备信息, config.json 是 go-cqhttp 的配置文件</span></code></pre>
 <h3 id="go-cqhttp-的配置文件"><a href="#go-cqhttp-的配置文件" class="headerlink" title="go-cqhttp 的配置文件"></a>go-cqhttp 的配置文件</h3><p>config.json :</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
     <span class="token property">"uin"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> // 此处填入你用来做 bot 的账号
@@ -319,54 +319,54 @@ tar xf go-cqhttp-v0.9.29-linux-amd64.tar.gz
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
 <p>两种都是正确的, 任意一种即可。</p>
-<h3 id="获取-HoshinoBot"><a href="#获取-HoshinoBot" class="headerlink" title="获取 HoshinoBot"></a>获取 HoshinoBot</h3><pre class=" language-shell"><code class="language-shell">cd
-git clone https://github.com/Ice-Cirno/HoshinoBot.git
-cd HoshinoBot
-cp -r hoshino/config_example hoshino/config
+<h3 id="获取-HoshinoBot"><a href="#获取-HoshinoBot" class="headerlink" title="获取 HoshinoBot"></a>获取 HoshinoBot</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span>
+<span class="token function">git</span> clone https://github.com/Ice-Cirno/HoshinoBot.git
+<span class="token function">cd</span> HoshinoBot
+<span class="token function">cp</span> -r hoshino/config_example hoshino/config
 
-pip3 install -r requirements.txt
-#境内服务器可以通过加上参数 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 加快下载速度
+pip3 <span class="token function">install</span> -r requirements.txt
+<span class="token comment" spellcheck="true">#境内服务器可以通过加上参数 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 加快下载速度</span>
 
-#↓↓↓ 可选, 性能 ↓↓↓
-pip3 install msgpack ujson python-Levenshtein
-#境内服务器可以通过加上参数 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 加快下载速度
+<span class="token comment" spellcheck="true">#↓↓↓ 可选, 性能 ↓↓↓</span>
+pip3 <span class="token function">install</span> msgpack ujson python-Levenshtein
+<span class="token comment" spellcheck="true">#境内服务器可以通过加上参数 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 加快下载速度</span>
 
 vim hoshino/config/__bot__.py
-#自定义你的机器人, 按照中文注释填好。</code></pre>
+<span class="token comment" spellcheck="true">#自定义你的机器人, 按照中文注释填好。</span></code></pre>
 <p>若您是在 vultr 或者其它境外厂商购买的服务器, 您的服务器可能会有中文乱码的现象, 您可以对照 <a href="https://github.com/Ice-Cirno/HoshinoBot/blob/master/hoshino/config_example/__bot__.py" target="_blank" rel="noopener">这里</a> 的中文注释修改您的配置。</p>
 <h3 id="获取静态资源"><a href="#获取静态资源" class="headerlink" title="获取静态资源"></a>获取静态资源</h3><p>获取合成图片所需要的图包 :</p>
-<pre class=" language-shell"><code class="language-shell">cd ~/HoshinoBot
-wget https://drive.di.he.cn/res.tar.gz
-#微软, 行 !
-tar xf res.tar.gz</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> ~/HoshinoBot
+<span class="token function">wget</span> https://drive.di.he.cn/res.tar.gz
+<span class="token comment" spellcheck="true">#微软, 行 !</span>
+<span class="token function">tar</span> xf res.tar.gz</code></pre>
 <p>安装新版 jjc 查询合成图片所需要的字体 :</p>
-<pre class=" language-shell"><code class="language-shell">#↓↓↓ CentOS 请先执行 ↓↓↓
-yum -y install fontconfig
-#↑↑↑ Ubuntu 和 Debian 请无视 ↑↑↑
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#↓↓↓ CentOS 请先执行 ↓↓↓</span>
+yum -y <span class="token function">install</span> fontconfig
+<span class="token comment" spellcheck="true">#↑↑↑ Ubuntu 和 Debian 请无视 ↑↑↑</span>
 
-mkdir -p /usr/shared/fonts/chinese
-wget https://drive.di.he.cn/ttc.tar.gz
-tar zxvf ./ttc.tar.gz -C /usr/shared/fonts/chinese
+<span class="token function">mkdir</span> -p /usr/shared/fonts/chinese
+<span class="token function">wget</span> https://drive.di.he.cn/ttc.tar.gz
+<span class="token function">tar</span> zxvf ./ttc.tar.gz -C /usr/shared/fonts/chinese
 mkfontscale
 mkfontdir</code></pre>
 <h3 id="测试-bot-是否搭建成功"><a href="#测试-bot-是否搭建成功" class="headerlink" title="测试 bot 是否搭建成功"></a>测试 bot 是否搭建成功</h3><p>尝试运行 bot , 看看其是否能工作。</p>
 <p>1, 启动 <code>go-cqhttp</code> :</p>
-<pre class=" language-shell"><code class="language-shell">screen -S mirai
-#创建一个新的窗口用于运行 go-cqhttp
-cd ~/mirai
-chmod +x go-cqhttp
-#赋予执行权限
+<pre class=" language-bash"><code class="language-bash"><span class="token function">screen</span> -S mirai
+<span class="token comment" spellcheck="true">#创建一个新的窗口用于运行 go-cqhttp</span>
+<span class="token function">cd</span> ~/mirai
+<span class="token function">chmod</span> +x go-cqhttp
+<span class="token comment" spellcheck="true">#赋予执行权限</span>
 ./go-cqhttp
-#运行 go-cqhttp , 可能需要异地登录验证
+<span class="token comment" spellcheck="true">#运行 go-cqhttp , 可能需要异地登录验证</span>
 
-#然后, 使用组合键 Ctrl + a ,d 挂起这个窗口</code></pre>
+<span class="token comment" spellcheck="true">#然后, 使用组合键 Ctrl + a ,d 挂起这个窗口</span></code></pre>
 <p>2, 启动 <code>HoshinoBot</code> :</p>
-<pre class=" language-shell"><code class="language-shell">screen -S hoshino
-#创建一个新的窗口用于运行 HoshinoBot
-cd ~/HoshinoBot
+<pre class=" language-bash"><code class="language-bash"><span class="token function">screen</span> -S hoshino
+<span class="token comment" spellcheck="true">#创建一个新的窗口用于运行 HoshinoBot</span>
+<span class="token function">cd</span> ~/HoshinoBot
 python3 run.py
 
-#然后, 使用组合键 Ctrl + a ,d 挂起这个窗口</code></pre>
+<span class="token comment" spellcheck="true">#然后, 使用组合键 Ctrl + a ,d 挂起这个窗口</span></code></pre>
 <p>如果到这里为止一切正常, HoshinoBot 的控制台应该会输出类似于这样的一条日志 :</p>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">[</span><span class="token datetime number">2020-09-21 22:30:45</span><span class="token punctuation">,</span><span class="token number">435</span><span class="token punctuation">]</span> 127.0.0.1<span class="token punctuation">:</span>56363 GET /ws/ 1.1 101 <span class="token punctuation">-</span> <span class="token number">114514</span></code></pre>
 <p>恭喜你成功搭建了 HoshinoBot , 现在立刻在群里 艾特 你的 bot 并发送一句 <code>kkp</code> 吧！</p>
@@ -391,63 +391,63 @@ python3 run.py
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
 <p>获取 yobot :</p>
-<pre class=" language-shell"><code class="language-shell">cd
-git clone https://github.com/yuudi/yobot.git
-cd yobot/src/client
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span>
+<span class="token function">git</span> clone https://github.com/yuudi/yobot.git
+<span class="token function">cd</span> yobot/src/client
 
-pip3 install -r requirements.txt
-#境内服务器可以通过加上参数 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 加快下载速度
+pip3 <span class="token function">install</span> -r requirements.txt
+<span class="token comment" spellcheck="true">#境内服务器可以通过加上参数 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 加快下载速度</span>
 
-screen -S yobot
-#创建一个新窗口用于运行 yobot
+<span class="token function">screen</span> -S yobot
+<span class="token comment" spellcheck="true">#创建一个新窗口用于运行 yobot</span>
 
 python3 main.py
 sh yobotg.sh</code></pre>
 <p>私聊或群聊发送 <code>V</code> 或 <code>ver</code> 或 <code>version</code> , bot 会回复 yobot 版本。</p>
 <p>放通端口, 使 yobot 的 web 能在 9222 端口被外部访问 :</p>
-<pre class=" language-shell"><code class="language-shell">#↓↓↓ Ubuntu 和 Debian 用户请无视 ↓↓↓
-firewall-cmd --zone=public --add-port=9222/tcp --permanent
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#↓↓↓ Ubuntu 和 Debian 用户请无视 ↓↓↓</span>
+firewall-cmd --zone<span class="token operator">=</span>public --add-port<span class="token operator">=</span>9222/tcp --permanent
 firewall-cmd --reload
-#↑↑↑ Ubuntu 和 Debian 用户请无视 ↑↑↑</code></pre>
+<span class="token comment" spellcheck="true">#↑↑↑ Ubuntu 和 Debian 用户请无视 ↑↑↑</span></code></pre>
 <p>如果你是在大厂租用的服务器, 你的服务器商通常给你的服务器自带了防火墙, 服务器商不同, 开启方法也不相同, 你需要自行去服务商的服务器管理面板放通 9222 端口, 如果你不知道怎么操作, 你可以去谷歌搜索 &lt;你的服务器商的名字&gt; + 放通端口 。</p>
 <p>验证 :</p>
 <p>手机或者电脑访问 <code>http://服务器 ip :9222/</code> , 能打开就算搭建成功。</p>
-<h4 id="作为-HoshinoBot-的插件运行"><a href="#作为-HoshinoBot-的插件运行" class="headerlink" title="作为 HoshinoBot 的插件运行"></a>作为 HoshinoBot 的插件运行</h4><pre class=" language-shell"><code class="language-shell">cd ~/HoshinoBot/hoshino/modules
-mkdir yobot
-cd yobot
+<h4 id="作为-HoshinoBot-的插件运行"><a href="#作为-HoshinoBot-的插件运行" class="headerlink" title="作为 HoshinoBot 的插件运行"></a>作为 HoshinoBot 的插件运行</h4><pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> ~/HoshinoBot/hoshino/modules
+<span class="token function">mkdir</span> yobot
+<span class="token function">cd</span> yobot
 
-git init
-git submodule add https://github.com/yuudi/yobot.git
+<span class="token function">git</span> init
+<span class="token function">git</span> submodule add https://github.com/yuudi/yobot.git
 
 vim ~/HoshinoBot/hoshino/config/__bot__.py
-#MODULE_ON 添加 'yobot'
-#HOST修改为 0.0.0.0 ( 默认值为 127.0.0.1 )
+<span class="token comment" spellcheck="true">#MODULE_ON 添加 'yobot'</span>
+<span class="token comment" spellcheck="true">#HOST修改为 0.0.0.0 ( 默认值为 127.0.0.1 )</span>
 
-#↓↓↓ Ubuntu 和 Debian 用户请无视 ↓↓↓
-firewall-cmd --zone=public --add-port=8080/tcp --permanent
+<span class="token comment" spellcheck="true">#↓↓↓ Ubuntu 和 Debian 用户请无视 ↓↓↓</span>
+firewall-cmd --zone<span class="token operator">=</span>public --add-port<span class="token operator">=</span>8080/tcp --permanent
 firewall-cmd --reload
-#↑↑↑ Ubuntu 和 Debian 用户请无视 ↑↑↑
+<span class="token comment" spellcheck="true">#↑↑↑ Ubuntu 和 Debian 用户请无视 ↑↑↑</span>
 
-#如果你的 HoshinoBot 已经在运行了, 你应该先暂时关闭它
-screen -ls
-#查看挂起的窗口, 查看 hoshino 这个进程的 pid
-kill -9 <pid>
-#关闭进程</code></pre>
+<span class="token comment" spellcheck="true">#如果你的 HoshinoBot 已经在运行了, 你应该先暂时关闭它</span>
+<span class="token function">screen</span> -ls
+<span class="token comment" spellcheck="true">#查看挂起的窗口, 查看 hoshino 这个进程的 pid</span>
+<span class="token function">kill</span> -9 <span class="token operator">&lt;</span>pid<span class="token operator">></span>
+<span class="token comment" spellcheck="true">#关闭进程</span></code></pre>
 <p>如果你是在大厂租用的服务器, 你的服务器商通常给你的服务器自带了防火墙, 服务器商不同, 开启方法也不相同, 你需要自行去服务商的服务器管理面板放通 8080 端口, 如果你不知道怎么操作, 你可以去谷歌搜索 &lt;你的服务器商的名字&gt; + 放通端口 。</p>
 <p>手机或者电脑访问 <code>http://服务器 ip :8080/</code> , 能打开就算搭建成功。</p>
 <p>使用 <code>python3 ~/HoshinoBot/run.py</code> 运行一次 HoshinoBot , 此时启动日志应有</p>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">[</span><span class="token datetime number">2020-09-22 18:36:31</span><span class="token punctuation">,</span>967 nonebot<span class="token punctuation">]</span> INFO<span class="token punctuation">:</span> Succeeded to import "hoshino.modules.yobot.yobot"</code></pre>
 <p>接下来使用组合键 Ctrl + C 关闭 Hoshino ,</p>
-<pre class=" language-shell"><code class="language-shell">vim ~/HoshinoBot/hoshino/modules/yobot/yobot/src/client/yobot_data/yobot_config.json
-#修改 public_address 中的字段, 9222 修改为 8080</code></pre>
+<pre class=" language-bash"><code class="language-bash">vim ~/HoshinoBot/hoshino/modules/yobot/yobot/src/client/yobot_data/yobot_config.json
+<span class="token comment" spellcheck="true">#修改 public_address 中的字段, 9222 修改为 8080</span></code></pre>
 <p>接下来, 就可以启动</p>
-<pre class=" language-shell"><code class="language-shell">screen -S bot
-#创建新的用于运行 hoshino + yobot 的窗口
+<pre class=" language-bash"><code class="language-bash"><span class="token function">screen</span> -S bot
+<span class="token comment" spellcheck="true">#创建新的用于运行 hoshino + yobot 的窗口</span>
 
 python3 ~/HoshinoBot/run.py
-#启动命令
+<span class="token comment" spellcheck="true">#启动命令</span>
 
-#然后, 使用组合键 Ctrl + a ,d 挂起这个窗口</code></pre>
+<span class="token comment" spellcheck="true">#然后, 使用组合键 Ctrl + a ,d 挂起这个窗口</span></code></pre>
 <h3 id="Hoshino-的-config"><a href="#Hoshino-的-config" class="headerlink" title="Hoshino 的 config"></a>Hoshino 的 config</h3><p>v2 版本的 Hoshino 需将 API key 填入 hoshino/config 里, 每次修改需要重启。</p>
 <h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>设置反向代理的一个好处是可以为你的 yobot 的 web 引入 https 支持, https 协议可以通过 ssl 提供加密处理数据、验证对方身份以及数据完整性保护, 是一种安全的传输协议。</p>
 <p>使用反向代理需确定自己有一个域名, 并将域名解析到服务器。</p>
@@ -455,34 +455,34 @@ python3 ~/HoshinoBot/run.py
 <p><strong>注意 : 有些域名无法备案, 购买域名之前应该先去了解。</strong></p>
 <p>下面开始介绍使用 <a href="https://nginx.org/" target="_blank" rel="noopener">nginx</a> 将在 <code>9222</code> 或 <code>8080</code> 端口运行的 yobot 的 web 转发到 80 端口, 默认您已经为您的服务器设置好了解析。</p>
 <h4 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h4><p>目前的 stable 版是 1.18.0, 本教程就以 1.18.0 为例。<br>无论何时我都建议你下载 stable 版, 你可以在 <a href="https://nginx.org/en/download.html" target="_blank" rel="noopener">这里</a> 查看当前的 stable 版。</p>
-<pre class=" language-shell"><code class="language-shell">cd&&wget http://nginx.org/download/nginx-1.18.0.tar.gz
-tar -zxvf nginx-1.18.0.tar.gz
-cd nginx-1.18.0
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span><span class="token operator">&amp;&amp;</span><span class="token function">wget</span> http://nginx.org/download/nginx-1.18.0.tar.gz
+<span class="token function">tar</span> -zxvf nginx-1.18.0.tar.gz
+<span class="token function">cd</span> nginx-1.18.0
 
 ./configure --with-http_ssl_module --with-http_v2_module
-#如果没有加上这两个参数, 就无法引入 https 支持。
+<span class="token comment" spellcheck="true">#如果没有加上这两个参数, 就无法引入 https 支持。</span>
 
-make&&make install</code></pre>
-<h4 id="验证-Nginx"><a href="#验证-Nginx" class="headerlink" title="验证 Nginx"></a>验证 Nginx</h4><pre class=" language-shell"><code class="language-shell">cd /usr/local/nginx/sbin
+<span class="token function">make</span><span class="token operator">&amp;&amp;</span><span class="token function">make</span> <span class="token function">install</span></code></pre>
+<h4 id="验证-Nginx"><a href="#验证-Nginx" class="headerlink" title="验证 Nginx"></a>验证 Nginx</h4><pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/nginx/sbin
 ./nginx
 
 curl 127.0.0.1</code></pre>
 <p>此处应输出 nginx 的欢迎页面</p>
 <h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><p>将 nginx 加入环境变量以简化后续操作</p>
-<pre class=" language-shell"><code class="language-shell">vim /etc/profile</code></pre>
+<pre class=" language-bash"><code class="language-bash">vim /etc/profile</code></pre>
 <p>在这个文件的结尾填入</p>
 <pre class=" language-nginx"><code class="language-nginx">export NGINX_HOME<span class="token operator">=</span><span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span>nginx
 export PATH<span class="token operator">=</span><span class="token variable">$PATH</span><span class="token punctuation">:</span><span class="token variable">$NGINX_HOME</span><span class="token operator">/</span>sbin</code></pre>
 <p>使用 <code>source /etc/profile</code> 使其生效。</p>
 <p>验证 :</p>
-<pre class=" language-shell"><code class="language-shell">firewall-cmd --zone=public --add-port=80/tcp --permanent
+<pre class=" language-bash"><code class="language-bash">firewall-cmd --zone<span class="token operator">=</span>public --add-port<span class="token operator">=</span>80/tcp --permanent
 firewall-cmd --reload
-#放通 80 端口</code></pre>
+<span class="token comment" spellcheck="true">#放通 80 端口</span></code></pre>
 <p>然后, 使用你的手机或者电脑的浏览器, 输入你的域名并回车, 能访问到 nginx 的欢迎页面。</p>
-<h4 id="申请-Let’s-Encrypt-的-ssl-证书"><a href="#申请-Let’s-Encrypt-的-ssl-证书" class="headerlink" title="申请 Let’s Encrypt 的 ssl 证书"></a>申请 Let’s Encrypt 的 ssl 证书</h4><pre class=" language-shell"><code class="language-shell">cd&&git clone https://github.com/certbot/certbot
-cd certbot
+<h4 id="申请-Let’s-Encrypt-的-ssl-证书"><a href="#申请-Let’s-Encrypt-的-ssl-证书" class="headerlink" title="申请 Let’s Encrypt 的 ssl 证书"></a>申请 Let’s Encrypt 的 ssl 证书</h4><pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span><span class="token operator">&amp;&amp;</span><span class="token function">git</span> clone https://github.com/certbot/certbot
+<span class="token function">cd</span> certbot
 
-#↓↓↓ 以下命令是一个整体, 请整段复制到任意编辑器然后将本条命令第二行和第三行中 example.com 替换成你自己的域名后粘贴到终端
+<span class="token comment" spellcheck="true">#↓↓↓ 以下命令是一个整体, 请整段复制到任意编辑器然后将本条命令第二行和第三行中 example.com 替换成你自己的域名后粘贴到终端</span>
 ./certbot-auto certonly --manual \
 -d *.example.com \
 -d example.com --agree-tos \
@@ -565,56 +565,56 @@ Before continuing<span class="token punctuation">,</span> verify the record is d
 <p>注意 <code>nginx.conf</code> 是 nginx 的主配置文件, 如果你不知道其各项参数的含义, 不要做多余的修改。建议在修改前对这个文件进行备份。</p>
 <p>2020 / 10 / 21 更新 : <code>nginx.conf</code> 不是 json , 无需加逗号。</p>
 <p>重启 nginx 使其生效</p>
-<pre class=" language-shell"><code class="language-shell">nginx -s reload</code></pre>
+<pre class=" language-bash"><code class="language-bash">nginx -s reload</code></pre>
 <p>修改 yobot 的配置文件</p>
-<pre class=" language-shell"><code class="language-shell">#源码版
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#源码版</span>
 vim ~/yobot/src/client/yobot_data/yobot_config.json
-# public_adress 字段的值修改为 https://example.com/
-#↑↑↑ example.com 替换成你自己的域名 ↑↑↑
+<span class="token comment" spellcheck="true"># public_adress 字段的值修改为 https://example.com/</span>
+<span class="token comment" spellcheck="true">#↑↑↑ example.com 替换成你自己的域名 ↑↑↑</span>
 
-#插件版
+<span class="token comment" spellcheck="true">#插件版</span>
 vim ~/HoshinoBot/hoshino/modules/yobot/yobot/src/client/yobot_data/yobot_config.json
-# public_adress 字段的值修改为 https://example.com/
-#↑↑↑ example.com 替换成你自己的域名 ↑↑↑</code></pre>
+<span class="token comment" spellcheck="true"># public_adress 字段的值修改为 https://example.com/</span>
+<span class="token comment" spellcheck="true">#↑↑↑ example.com 替换成你自己的域名 ↑↑↑</span></code></pre>
 <h4 id="验证反向代理"><a href="#验证反向代理" class="headerlink" title="验证反向代理"></a>验证反向代理</h4><p>浏览器访问 <code>https://example.com/</code> 应访问到 yobot 的 homepage</p>
 <h4 id="再次提高安全性"><a href="#再次提高安全性" class="headerlink" title="再次提高安全性"></a>再次提高安全性</h4><p>修改 yobot 的配置文件, 仅允许本机监听</p>
-<pre class=" language-shell"><code class="language-shell">#源码版
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#源码版</span>
 vim ~/yobot/src/client/yobot_data/yobot_config.json
-# HOST 字段的值修改为 127.0.0.1
+<span class="token comment" spellcheck="true"># HOST 字段的值修改为 127.0.0.1</span>
 
-#插件版
+<span class="token comment" spellcheck="true">#插件版</span>
 vim ~/HoshinoBot/hoshino/config/__bot__.py
-# HOST 字段的值修改为 127.0.0.1</code></pre>
+<span class="token comment" spellcheck="true"># HOST 字段的值修改为 127.0.0.1</span></code></pre>
 <h3 id="获取-cq-picsearcher-bot"><a href="#获取-cq-picsearcher-bot" class="headerlink" title="获取 cq-picsearcher-bot"></a>获取 cq-picsearcher-bot</h3><p>这个项目与公主连结并无关系, 但是功能实在优秀, 用户可以根据自己的需要选择安装。</p>
-<h4 id="安装-nodejs"><a href="#安装-nodejs" class="headerlink" title="安装 nodejs"></a>安装 nodejs</h4><pre class=" language-shell"><code class="language-shell">#CentOS用户请执行:
-curl -sL https://rpm.nodesource.com/setup_10.x | bash -
-yum -y install nodejs
+<h4 id="安装-nodejs"><a href="#安装-nodejs" class="headerlink" title="安装 nodejs"></a>安装 nodejs</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#CentOS用户请执行:</span>
+curl -sL https://rpm.nodesource.com/setup_10.x <span class="token operator">|</span> <span class="token function">bash</span> -
+yum -y <span class="token function">install</span> nodejs
 
-#Ubuntu , Debian 用户请执行
-curl -sL https://deb.nodesource.com/setup_10.x | bash -
-apt -y install nodejs
+<span class="token comment" spellcheck="true">#Ubuntu , Debian 用户请执行</span>
+curl -sL https://deb.nodesource.com/setup_10.x <span class="token operator">|</span> <span class="token function">bash</span> -
+apt -y <span class="token function">install</span> nodejs
 
-#不建议安装更高版本的 nodejs</code></pre>
-<h4 id="安装-cq-picsearcher-bot"><a href="#安装-cq-picsearcher-bot" class="headerlink" title="安装 cq-picsearcher-bot"></a>安装 cq-picsearcher-bot</h4><pre class=" language-shell"><code class="language-shell">cd
-git clone https://github.com/Tsuk1ko/cq-picsearcher-bot.git
-cd cq-picsearcher-bot
-npm install -g yarn
+<span class="token comment" spellcheck="true">#不建议安装更高版本的 nodejs</span></code></pre>
+<h4 id="安装-cq-picsearcher-bot"><a href="#安装-cq-picsearcher-bot" class="headerlink" title="安装 cq-picsearcher-bot"></a>安装 cq-picsearcher-bot</h4><pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span>
+<span class="token function">git</span> clone https://github.com/Tsuk1ko/cq-picsearcher-bot.git
+<span class="token function">cd</span> cq-picsearcher-bot
+<span class="token function">npm</span> <span class="token function">install</span> -g yarn
 
-#↓↓↓ 境内服务器请执行 ↓↓↓
-yarn config set registry https://registry.npm.taobao.org --global
-yarn config set disturl https://npm.taobao.org/dist --global
-#↑↑↑ 境外服务器请忽略 ↑↑↑
+<span class="token comment" spellcheck="true">#↓↓↓ 境内服务器请执行 ↓↓↓</span>
+yarn config <span class="token keyword">set</span> registry https://registry.npm.taobao.org --global
+yarn config <span class="token keyword">set</span> disturl https://npm.taobao.org/dist --global
+<span class="token comment" spellcheck="true">#↑↑↑ 境外服务器请忽略 ↑↑↑</span>
 
-yarn install
-#使用 yarn 安装依赖
+yarn <span class="token function">install</span>
+<span class="token comment" spellcheck="true">#使用 yarn 安装依赖</span>
 
-cp config.default.json config.json
+<span class="token function">cp</span> config.default.json config.json
 
 vim config.json
-#修改配置文件</code></pre>
+<span class="token comment" spellcheck="true">#修改配置文件</span></code></pre>
 <h4 id="修改-cqps-的配置文件"><a href="#修改-cqps-的配置文件" class="headerlink" title="修改 cqps 的配置文件"></a>修改 cqps 的配置文件</h4><p>必须设置的项 : 第十五行的 <code>admin</code> 字段修改为你自己的 QQ 号 ( 做主人 ) 。</p>
 <p>其余设置项 : 见 <a href="https://github.com/Tsuk1ko/cq-picsearcher-bot/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">cqps 作者 神代綺凜 对配置文件的详细介绍</a> 。</p>
-<h4 id="启动-cqps"><a href="#启动-cqps" class="headerlink" title="启动 cqps"></a>启动 cqps</h4><pre class=" language-shell"><code class="language-shell">cd ~/cq-picsearcher-bot
+<h4 id="启动-cqps"><a href="#启动-cqps" class="headerlink" title="启动 cqps"></a>启动 cqps</h4><pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> ~/cq-picsearcher-bot
 
 yarn start</code></pre>
 <p>注 : cqps 使用正向 ws 的通信方式, 默认端口和 go-cqhttp 的正向 ws 默认端口一致, 如果没更改过 cqps 的配置文件中的 <code>port</code> 字段, 则这样就算完成 cqps 的部署。</p>
@@ -625,7 +625,7 @@ yarn start</code></pre>
 <h2 id="编写功能"><a href="#编写功能" class="headerlink" title="编写功能"></a>编写功能</h2><p>如果你没有学过 Python , 请先阅读 <a href="https://www.liaoxuefeng.com/wiki/1016959663602400" target="_blank" rel="noopener">廖雪峰的 Python3 教程</a> 至 异步 IO 中的 <code>协程</code> 一节。</p>
 <p>如果你学过 Python , 请阅读 <a href="https://github.com/pcrbot/hoshinobot-development-documentation" target="_blank" rel="noopener">HoshinoBot 开发文档 ( 社区版 )</a> 。</p>
 <h2 id="加入我们"><a href="#加入我们" class="headerlink" title="加入我们"></a>加入我们</h2><p>如果你希望为社区贡献代码, 你可以熟悉 git 的使用后, 加入 <a href="https://github.com/pcrbot" target="_blank" rel="noopener">pcrbot 的 github 组织</a> 。</p>
-<p>如果你想加入我们, 你可以与 <a href="mailto:&#109;&#105;&#x63;&#x68;&#105;&#107;&#97;&#119;&#97;&#x63;&#104;&#x69;&#110;&#64;&#111;&#117;&#116;&#108;&#x6f;&#x6f;&#107;&#46;&#99;&#x6f;&#109;">&#109;&#105;&#x63;&#x68;&#105;&#107;&#97;&#119;&#97;&#x63;&#104;&#x69;&#110;&#64;&#111;&#117;&#116;&#108;&#x6f;&#x6f;&#107;&#46;&#99;&#x6f;&#109;</a> 联系。</p>
+<p>如果你想加入我们, 你可以与 <a href="mailto:&#x6d;&#x69;&#x63;&#104;&#x69;&#107;&#x61;&#x77;&#x61;&#x63;&#104;&#x69;&#x6e;&#64;&#x6f;&#117;&#x74;&#108;&#111;&#111;&#107;&#46;&#x63;&#111;&#x6d;">&#x6d;&#x69;&#x63;&#104;&#x69;&#107;&#x61;&#x77;&#x61;&#x63;&#104;&#x69;&#x6e;&#64;&#x6f;&#117;&#x74;&#108;&#111;&#111;&#107;&#46;&#x63;&#111;&#x6d;</a> 联系。</p>
 <h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p>本项目需致谢 <a href="https://github.com/Adpex" target="_blank" rel="noopener">Adpex</a>, <a href="https://github.com/AkiraXie" target="_blank" rel="noopener">Aspirin</a> <a href="https://github.com/Lancercmd" target="_blank" rel="noopener">Lancercmd</a>, <a href="https://github.com/Ice-Cirno" target="_blank" rel="noopener">Ice-Cirno</a>, <a href="https://github.com/ishkong" target="_blank" rel="noopener">ishkong</a>, <a href="https://github.com/kkbllt" target="_blank" rel="noopener">thgsohack</a>, <a href="https://github.com/111234567890" target="_blank" rel="noopener">yoshino</a>, <a href="https://github.com/yuudi" target="_blank" rel="noopener">yuudi</a> 等人。</p>
 
       </section>
