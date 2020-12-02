@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  
+    <meta name="description" content="为公主连接设计的开源聊天应答服务">
+  
+
+  
+    <meta name="keywords" content="公主连接,公主连结,机器人,pcrbot">
+  
+
+  
+    <meta name="author" content="pcrbot">
+  
+
+  
+
+  
+
+  <title>给新人的简易部署指南（非一键包） | pcrbot</title>
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+<body>
+  <div class="root-container">
+    <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          pcrbot
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">HOME</a></li>
+        
+          <li class="navbar-list-item"><a href="https://github.com/pcrbot" target="_blank" rel="noopener">GitHub</a></li>
+        
+          <li class="navbar-list-item"><a href="https://github.com/pcrbot/www.pcrbot.com/new/master/source/_posts/0?filename=new_post_name.md&value=---%0Atitle%3A+%E6%97%A0%E6%A0%87%E9%A2%98%0Aauthor%3A+%E6%9C%AA%E7%9F%A5%E4%BD%9C%E8%80%85%0A---%0A%0A%E5%9C%A8%E6%AD%A4%E4%BD%BF%E7%94%A8+markdown+%E7%BC%96%E5%86%99%E5%86%85%E5%AE%B9" target="_blank" rel="noopener">投稿</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    
+<!-- header container -->
+<header class="header-container post">
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      
+        <div class="post-image" style="background-image: url(/images/banner-little-lyrical.jpg)"></div>
+      
+
+      <div class="post-text">
+        <div class="type-wrap">
+          
+        </div>
+        <h1 class="title-wrap">给新人的简易部署指南（非一键包）</h1>
+        <h2 class="title-sub-wrap">
+          <strong>Soung2279</strong>
+          <span>发布于</span>
+          
+  <a href="javascript:;" class="article-date">
+    <time datetime="2020-09-14T04:00:00.000Z" itemprop="datePublished">2020-09-14</time>
+  </a>
+
+        </h2>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+
+<div class="body-container">
+  <article class="content-container article-container">
+    <div class="article-content">
+      
+      
+
+      <section class="article-entry">
+        <p><em>基于<a href="https://github.com/mamoe/mirai" target="_blank" rel="noopener">Mirai</a>，<a href="https://github.com/Ice-Cirno/HoshinoBot" target="_blank" rel="noopener">HoshinoBot</a>，<a href="http://yobot.win/" target="_blank" rel="noopener">Yobot</a>的*</em>QQ机器人搭建指南***</p>
+<p>请注意：本指南<strong>并非</strong>官方文档，写此指南的目的是方便编程<strong>初学者</strong>或毫无经验的<strong>小白</strong>快速上手搭建自己的bot</p>
+<p><strong>感谢<a href="https://github.com/mamoe/mirai" target="_blank" rel="noopener">Mirai</a>项目 ，<a href="https://github.com/Ice-Cirno/HoshinoBot" target="_blank" rel="noopener">HoshinoBot</a>项目，<a href="https://github.com/pcrbot/yobot" target="_blank" rel="noopener">Yobot</a>项目，<a href="https://github.com/yyuueexxiinngg/cqhttp-mirai" target="_blank" rel="noopener">cqhttp-mirai</a> 插件和 众多<a href="https://www.pcrbot.com/">bot插件</a> 的开发者们！</strong></p>
+<p><strong>本指南具有时效性，请注意。</strong></p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>参照本指南引导，个人搭建者无需编程知识即可快速搭建bot，但仍建议您了解一些有关<strong>Python，Java, Kotlin等</strong>的基础知识。</p>
+<p>善用<a href="https://www.baidu.com/" target="_blank" rel="noopener">Baidu</a>, <a href="https://cn.bing.com/" target="_blank" rel="noopener">Bing</a>, <a href="http://www.google.cn/" target="_blank" rel="noopener">Google</a>等搜索引擎能帮助您更快上手</p>
+<p>若对自己搭建的bot<strong>不完全了解</strong>各项参数，指令等含义，请<strong>不要</strong>将bot用于出租</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
+<li><p><strong>Mirai:</strong> 是一个在全平台下运行，提供 QQ Android 协议支持的高效率机器人库</p>
+</li>
+<li><p><strong>HoshinoBot:</strong> 基于 <a href="http://nonebot.cqp.moe" target="_blank" rel="noopener">nonebot</a> 框架，开源、无公害、非转基因的QQ机器人。</p>
+</li>
+<li><p><strong>Yobot:</strong> 为<a href="https://game.bilibili.com/pcr/" target="_blank" rel="noopener">公主连结Re:dive</a>公会战设计的辅助机器人，能够帮助公会战管理者提供自动化管理服务。</p>
+</li>
+<li><p><strong>CQHTTP-MIRAI:</strong> 为Mirai移植的CQHTTP插件以兼容基于CQHTTP API开发的应用</p>
+</li>
+<li><p><strong>QQ机器人的运作方式:</strong> 简单来说，Mirai相当于一个下载了QQ的手机，而cqhttp-mirai是连接的WIFI信号，HoshinoBot，Yobot则是这个手机后面打字的人。</p>
+</li>
+</ul>
+<p>本指南将引导您将HoshinoBot和Yobot利用cqhttp-mirai缝合到Mirai上。</p>
+<h2 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h2><p>根据本指南部署完成的bot应具有以下功能：</p>
+<ul>
+<li><strong>基于腾讯AI闲聊的智能闲聊</strong>  <a href="">aichat</a></li>
+<li><strong>模拟群空调运行</strong>  <a href="">aircon</a></li>
+<li><strong>公会人员公开黑名单</strong>    <a href="">blacklist</a></li>
+<li><strong>Bot轻量语言库</strong>    <a href="">botchat</a></li>
+<li><strong>公主连结日程表查阅推送</strong>    <a href="">calendar</a></li>
+<li><strong>实时查询公会排名</strong>  <a href="">clanrank</a></li>
+<li><strong>模拟掷骰子</strong>  <a href="">dice</a></li>
+<li><strong>爆裂魔法</strong>  <a href="">explosion</a></li>
+<li><strong>无损音乐资源搜索</strong>  <a href="">flac</a></li>
+<li><strong>文章/表情包 生成器</strong>    <a href="">generator</a></li>
+<li><strong>猜角色小游戏</strong>    <a href="">guess</a></li>
+<li><strong>整点时报</strong>  <a href="">hourcall</a></li>
+<li><strong>定时提醒</strong>  <a href="">pcrwarn</a></li>
+<li><strong>公会战管理</strong>    <a href="">clanbattle</a></li>
+<li><strong>PCR实用小功能</strong> - 包含<strong>官方四格漫画推送(日文)与查阅</strong>，<strong>公主连结R官方新闻推送</strong>，<strong>竞技场作业查询</strong>，<strong>简易模拟赛🐎</strong>，<strong>模拟抽卡</strong> ，<strong>Rank表快捷查询</strong>  <a href="">priconne</a></li>
+<li><strong>你问我答</strong>  <a href="">QA</a></li>
+<li><strong>公会战报告图生成</strong>  <a href="">report</a></li>
+<li><strong>模拟俄罗斯转盘</strong>    <a href="">russian</a></li>
+<li><strong>p站搜</strong>   <a href="">pixiv</a></li>
+<li><strong>steam商店查询</strong>    <a href="">steam</a></li>
+<li><strong>群老婆</strong>    <a href="">laopo</a></li>
+<li><strong>群内点歌</strong>    <a href="">music</a></li>
+<li><strong>日语词典</strong>    <a href="">japanese</a></li>
+<li><strong>天气查询</strong>    <a href="">weather</a></li>
+<li><strong>随机涩图</strong>  <a href="">setu</a></li>
+<li><strong>识别图片来源</strong>  <a href="">search</a></li>
+<li><strong>Visual YouTuber运势签</strong> <a href="">vortune</a></li>
+<li><strong>短篇网抑云语录</strong>    <a href="">wcloud</a></li>
+</ul>
+<p><del>还有部分隐藏功能</del><br>Bot 的功能繁多，可根据自身需要控制开关，在群聊中发送 <code>lssv</code> 即可查看各功能模块的启用状态，使用以下命令进行控制：</p>
+<pre><code>启用 service-name
+禁用 service-name</code></pre><p>为防止单条消息过长，每项功能的指令说明分别显示。使用以下命令可以查看各项功能的说明：</p>
+<pre><code>service-name帮助</code></pre><h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p><strong>本指南面向无编程基础或刚入门的萌新，故推荐使用具有图形界面，对新手操作友好的Windows服务器来进行部署</strong></p>
+<ul>
+<li><p>准备一台Windows系统的服务器（或个人本地电脑）</p>
+</li>
+<li><p>登录服务器控制台，在防火墙/安全组等界面，放通<strong>80，8080，8090，9222</strong>端口</p>
+<blockquote>
+<p>以腾讯云为例：<br>在 云服务器 - 安全组 - 安全组规则 里 添加 入站与出站规则</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>以阿里云为例：<br>  在 云服务器 - 防火墙 里 添加规则</p>
+</blockquote>
+<blockquote>
+<p>以本地个人电脑为例：<br>  在 控制面板 - 系统和安全 - Windows Defender 防火墙 - 高级设置 里 添加 入站规则 与 出站规则<br>  不建议运行在本地个人电脑上。</p>
+</blockquote>
+<ul>
+<li><p>在任意位置打开任意一个文件夹，点击左上方的<code>查看</code>-<code>显示/隐藏</code>页面中，勾选<code>文件扩展名</code></p>
+</li>
+<li><p>（可选）使用 IE 或自行安装其他浏览器，用Bot 的QQ号登录网页<a href="https://aq.qq.com/cn2/index" target="_blank" rel="noopener">QQ安全中心</a>并保持登录至少一周。<del>(即使不执行此步骤，Bot 仍然可正常搭建运行，但部分群聊消息可能会被tx吞，且异地登录有冻结风险)</del></p>
+</li>
+</ul>
+<h1 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h1><h3 id="Windows-部署"><a href="#Windows-部署" class="headerlink" title="Windows 部署"></a>Windows 部署</h3><ol>
+<li><p>安装下列软件/工具</p>
+<ul>
+<li><p>Python ：<a href="https://www.python.org/downloads/windows/" target="_blank" rel="noopener">https://www.python.org/downloads/windows/</a></p>
+</li>
+<li><p>Git ：<a href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a></p>
+</li>
+<li><p>Java ：<a href="https://www.java.com/zh_CN/download/win10.jsp" target="_blank" rel="noopener">https://www.java.com/zh_CN/download/win10.jsp</a></p>
+</li>
+<li><p>Notepad++ ：<a href="https://notepad-plus-plus.org/downloads/" target="_blank" rel="noopener">https://notepad-plus-plus.org/downloads/</a></p>
+<blockquote>
+<p>部分网页国内网络可能访问缓慢，这里提供已整合好的压缩文件<br>百度网盘：<strong><a href="https://pan.baidu.com/s/1HwD-Z0f7msXKXLR0_Bec9Q" target="_blank" rel="noopener">安装资源整合包</a></strong><br>提取码：<strong><em>4396</em></strong><br>以上软件/工具可在整合包里的<strong>backups/software</strong>里找到</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>在合适的文件目录（例如桌面）新建文件夹并双击打开，点击文件夹左上角的 <code>文件 -&gt; 打开Windows Powershell</code>，输入以下命令</p>
+<pre class=" language-powershell"><code class="language-powershell"> git clone https:<span class="token operator">/</span><span class="token operator">/</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>Soung2279<span class="token operator">/</span>Mirai<span class="token operator">-</span>Bot<span class="token operator">-</span>Setup<span class="token punctuation">.</span>git</code></pre>
+<p> 在合适的文件目录（推荐C盘根目录）新建文件夹并重命名为<code>Resources</code><br> 将收集到的 图片/语音资源 放入该文件夹，注意文件目录结构</p>
+<pre><code> 应当具有以下路径
+ C:\Resources
+ C:\Resources\img        总的图片存放位置
+ C:\Resources\img\priconne       PCR实用小功能的图片位置
+ C:\Resources\img\priconne\comic     PCR实用小功能-4格漫画
+ C:\Resources\img\priconne\unit      PCR实用小功能-模拟抽卡角色头像
+ C:\Resources\img\priconne\quick     PCR实用小功能-rank表
+ C:\Resources\img\setu       涩图
+ C:\Resources\gacha      抽卡音效
+ C:\Resources\MEGUMIN\explosion      爆裂魔法
+ C:\Resources\pcrwarn        定时提醒语音
+ ......</code></pre><blockquote>
+<p>若自行整理资源困难，这里提供已整合好的压缩文件<br>百度网盘：<strong><a href="https://pan.baidu.com/s/1LKpJ2jOh3XOQSW308TL4bg" target="_blank" rel="noopener">资源包</a></strong><br>提取码：<strong><em>2200</em></strong>  </p>
+</blockquote>
+</li>
+<li><p>运行一次<code>yobot.exe</code>, 待弹出的窗口显示完毕后(<em>显示CTRL + C to quit字样后</em>)，关闭窗口</p>
+</li>
+<li><p><strong>修改以下几个文件的配置</strong></p>
+<ul>
+<li><p>在<code>yobot_data/yobot_config.json</code>文件中，将文中这几行语句内容更改为下列示例给出的内容（其他行不用改动，若和示例相同则无须变动。）</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"host"</span><span class="token operator">:</span> <span class="token string">"0.0.0.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token number">9222</span><span class="token punctuation">,</span>
+  <span class="token property">"public_address"</span><span class="token operator">:</span> <span class="token string">"http://你的服务器公网IP:9222/"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+<li><p>在<code>config.txt</code>文件中，将需要<strong>作为bot的QQ号和密码</strong>输入在第二个 <code>login</code> 之后，用 <code>空格</code> 分隔</p>
+<pre class=" language-json"><code class="language-json"></code></pre>
+</li>
+</ul>
+<hr>
+<p> login 你的botQQ号 QQ密码</p>
+<pre><code>
+ - 在`plugins/setting.yml`文件中，将第一行的数字换成**你的bot的QQ号**
+ ```yml
+&quot;你的bot的QQ号&quot;:</code></pre><ul>
+<li><p>在<code>HoshinoBot/hoshino/config/_bot_.py</code>文件中，将<code>SUPERUSERS</code>后的数字改为<strong>你自己的QQ号</strong>，将NICKNAME后的名称更改为<strong>你自定义的名字</strong>，将<code>RES_DIR</code>后的路径改为你在<strong>第二步</strong>新建的<code>Resources</code>路径</p>
+<pre class=" language-python"><code class="language-python">SUPERUSERS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">123456789</span><span class="token punctuation">]</span>
+NICKNAME <span class="token operator">=</span> <span class="token string">'妈'</span><span class="token punctuation">,</span> <span class="token string">'xcw'</span>
+RES_DIR <span class="token operator">=</span> r<span class="token string">'C:/Resources/'</span></code></pre>
+</li>
+<li><p>在<code>HoshinoBot/hoshino/modules/vortun/main.py</code>文件里，将<code>absPath</code>后的路径改为此文件当前的路径（注意用<code>\\双斜线</code>分层）</p>
+<pre class=" language-python"><code class="language-python">absPath <span class="token operator">=</span> <span class="token string">'C:\\Mirai-Bot-Setup\\HoshinoBot\\hoshino\\modules\\vortune'</span></code></pre>
+</li>
+</ul>
+</li>
+<li><p>(可选) 在以下文件中填入你自己的APIKEY</p>
+<ul>
+<li><p>在<code>HoshinoBot/hoshino/modules/aichat/aichat.py</code>文件里添加腾讯智能闲聊的API （已内置我的API，但建议去<a href="https://ai.qq.com/v1/" target="_blank" rel="noopener">申请</a>一个）</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">################</span>
+<span class="token comment" spellcheck="true"># 请修改</span>
+app_id <span class="token operator">=</span> <span class="token string">'123456789'</span>
+app_key <span class="token operator">=</span> <span class="token string">'abcdefghijk'</span>
+<span class="token comment" spellcheck="true">################</span></code></pre>
+</li>
+<li><p>在<code>HoshinoBot/hoshino/config/priconne.py</code>文件里添加<a href="https://pcrdfans.com/" target="_blank" rel="noopener">竞技场作业网</a>的API（需要去<a href="https://pcrdfans.com/bot" target="_blank" rel="noopener">申请</a>）</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">arena</span><span class="token punctuation">:</span>
+AUTH_KEY <span class="token operator">=</span> <span class="token string">"你的作业网API"</span></code></pre>
+</li>
+<li><p>在<code>HoshinoBot/hoshino/modules/search-image/picfinder.py</code>文件里<strong>第15行</strong>添加<a href="https://saucenao.com/index.php" target="_blank" rel="noopener">SauceNAO识别图片</a>的API（需要去<a href="https://saucenao.com/user.php" target="_blank" rel="noopener">申请</a>，已内置了我自己的API，但过多使用可能造成请求额度不够）</p>
+<pre class=" language-python"><code class="language-python">api_key<span class="token operator">=</span><span class="token string">"abcdefghijklmn123"</span><span class="token comment" spellcheck="true">#填写你自己的api_key</span></code></pre>
+</li>
+<li><p>在<code>HoshinoBot/hoshino/modules/pixiv/config.yml</code>文件中填入你自己的pixiv账号</p>
+<pre class=" language-yml"><code class="language-yml">pixiv:
+username: '132456789'
+password: '132456789'</code></pre>
+</li>
+</ul>
+</li>
+<li><p>运行<code>双击安装依赖.bat</code>，若此过程中有报错信息，请重新运行一次，若仍有报错，请复制报错信息到搜索引擎获得帮助</p>
+</li>
+</ol>
+<h3 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h3><p>运行 <code>Mirai-Bot-Setup</code> 下的 <code>yobot.exe</code> , <code>双击运行Mirai.bat</code> 和 <code>HoshinoBot</code> 下的 <code>双击运行HoshinoBot.bat</code> 。显示以下字样说明bot启动成功：</p>
+<h4 id="双击运行HoshinoBot-bat"><a href="#双击运行HoshinoBot-bat" class="headerlink" title="双击运行HoshinoBot.bat"></a><em>双击运行HoshinoBot.bat</em></h4><pre class=" language-python"><code class="language-python">Running on http<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span><span class="token punctuation">:</span><span class="token number">8090</span> <span class="token punctuation">(</span>CTRL <span class="token operator">+</span> C to quit<span class="token punctuation">)</span>
+<span class="token punctuation">[</span><span class="token number">2020</span><span class="token operator">-</span><span class="token number">09</span><span class="token operator">-</span><span class="token number">12</span> <span class="token number">21</span><span class="token punctuation">:</span><span class="token number">19</span><span class="token punctuation">:</span><span class="token number">17</span><span class="token punctuation">,</span><span class="token number">706</span><span class="token punctuation">]</span> Running on <span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span><span class="token punctuation">:</span><span class="token number">8090</span> over http <span class="token punctuation">(</span>CTRL <span class="token operator">+</span> C to quit<span class="token punctuation">)</span></code></pre>
+<h4 id="yobot-exe"><a href="#yobot-exe" class="headerlink" title="yobot.exe"></a><em>yobot.exe</em></h4><pre class=" language-python"><code class="language-python">yobot<span class="token punctuation">[</span>v3<span class="token number">.6</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token punctuation">]</span>便携版
+初始化完成，启动服务<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+Running on https<span class="token punctuation">:</span><span class="token operator">//</span><span class="token number">0.0</span><span class="token punctuation">.</span><span class="token number">0.0</span><span class="token punctuation">:</span><span class="token number">9222</span> <span class="token punctuation">(</span>CTRL <span class="token operator">+</span> C to quit<span class="token punctuation">)</span></code></pre>
+<h4 id="双击运行Mirai-bat"><a href="#双击运行Mirai-bat" class="headerlink" title="双击运行Mirai.bat"></a><em>双击运行Mirai.bat</em></h4><pre class=" language-java"><code class="language-java"><span class="token punctuation">[</span>0m <span class="token number">21</span><span class="token operator">:</span><span class="token number">21</span><span class="token operator">:</span><span class="token number">55</span> <span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> <span class="token punctuation">[</span>BOT 你的bot的QQ号<span class="token punctuation">]</span> Logging in<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">[</span><span class="token number">39</span><span class="token punctuation">;</span>49m
+<span class="token punctuation">[</span>0m <span class="token number">21</span><span class="token operator">:</span><span class="token number">21</span><span class="token operator">:</span><span class="token number">55</span> <span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> <span class="token punctuation">[</span>NETWORK<span class="token punctuation">]</span> Connected to server msfwifi<span class="token punctuation">.</span>3g<span class="token punctuation">.</span>qq<span class="token punctuation">.</span>com<span class="token operator">:</span><span class="token number">8080</span><span class="token punctuation">[</span><span class="token number">39</span><span class="token punctuation">;</span>49m
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">[</span>0m <span class="token number">21</span><span class="token operator">:</span><span class="token number">21</span><span class="token operator">:</span><span class="token number">56</span> <span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> <span class="token punctuation">[</span>NETWORK<span class="token punctuation">]</span> 开始加载好友信息<span class="token punctuation">[</span><span class="token number">39</span><span class="token punctuation">;</span>49m
+<span class="token punctuation">[</span>0m <span class="token number">21</span><span class="token operator">:</span><span class="token number">21</span><span class="token operator">:</span><span class="token number">56</span> <span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> <span class="token punctuation">[</span>NETWORK<span class="token punctuation">]</span> 开始加载群组列表与群成员列表<span class="token punctuation">[</span><span class="token number">39</span><span class="token punctuation">;</span>49m
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">[</span>0m <span class="token number">21</span><span class="token operator">:</span><span class="token number">21</span><span class="token operator">:</span><span class="token number">57</span> <span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> <span class="token punctuation">[</span>BOT 你的bot的QQ号<span class="token punctuation">]</span> Login successful<span class="token punctuation">[</span><span class="token number">39</span><span class="token punctuation">;</span>49m
+<span class="token punctuation">[</span>0m <span class="token number">21</span><span class="token operator">:</span><span class="token number">21</span><span class="token operator">:</span><span class="token number">57</span> <span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> <span class="token punctuation">[</span>Command<span class="token punctuation">]</span> 你的bot的QQ号 login successes<span class="token punctuation">[</span><span class="token number">39</span><span class="token punctuation">;</span>49m</code></pre>
+<blockquote>
+<p>若此过程中有报错信息，请复制报错信息到搜索引擎<br>此过程中常见的报错为资源缺失，请确认<strong>第四步</strong>中修改的<code>RES_DIR</code>路径是否正确</p>
+</blockquote>
+<p>在bot所在群聊中发送任意信息，若<code>双击运行Mirai.bat</code> 和 <code>双击运行HoshinoBot.bat</code>窗口<strong>有反应</strong>，说明bot的HoshinoBot部分<strong>正常</strong>运行中。此时可发送【使用指南】/【指令表】来查看bot的帮助文档。  </p>
+<p>在bot所在群聊中发送<code>version</code>和<code>help</code>，若bot在群聊中有反应，说明bot的Yobot部分<strong>正常</strong>运行中。此时可发送【help】来查看bot的会战文档。</p>
+<h1 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h1><h3 id="·-若Bot-运行正常，可考虑开启更多模块以丰富bot的功能。"><a href="#·-若Bot-运行正常，可考虑开启更多模块以丰富bot的功能。" class="headerlink" title="· 若Bot 运行正常，可考虑开启更多模块以丰富bot的功能。"></a>· 若Bot 运行正常，可考虑开启更多模块以丰富bot的功能。</h3><h3 id="·-在-HoshinoBot-hoshino-config-bot-py-文件里，将需要开启的模块前面的”-井号“删除。各项模块对应的功能可在写在前面-功能介绍处查看"><a href="#·-在-HoshinoBot-hoshino-config-bot-py-文件里，将需要开启的模块前面的”-井号“删除。各项模块对应的功能可在写在前面-功能介绍处查看" class="headerlink" title="· 在 HoshinoBot/hoshino/config/_bot_.py 文件里，将需要开启的模块前面的”#井号“删除。各项模块对应的功能可在写在前面-功能介绍处查看"></a>· 在 <code>HoshinoBot/hoshino/config/_bot_.py</code> 文件里，将需要开启的模块前面的”<code>#井号</code>“删除。各项模块对应的功能可在<a href=""><strong>写在前面-功能介绍</strong></a>处查看</h3><h3 id="·-若想给Bot-添加更多功能，可以自行收集插件放入-HoshinoBot-hoshino-modules-文件夹中。（请仔细阅读该插件的说明文档，某些插件的添加方式有所不同）"><a href="#·-若想给Bot-添加更多功能，可以自行收集插件放入-HoshinoBot-hoshino-modules-文件夹中。（请仔细阅读该插件的说明文档，某些插件的添加方式有所不同）" class="headerlink" title="· 若想给Bot 添加更多功能，可以自行收集插件放入 HoshinoBot/hoshino/modules 文件夹中。（请仔细阅读该插件的说明文档，某些插件的添加方式有所不同）"></a>· 若想给Bot 添加更多功能，可以自行收集插件放入 <code>HoshinoBot/hoshino/modules</code> 文件夹中。（请仔细阅读该插件的说明文档，某些插件的添加方式有所不同）</h3><h3 id="·-若Bot-添加群过多，需要引入授权系统，请启用authMS插件。Bot-已内置此插件，请仔细阅读说明文档进行配置。"><a href="#·-若Bot-添加群过多，需要引入授权系统，请启用authMS插件。Bot-已内置此插件，请仔细阅读说明文档进行配置。" class="headerlink" title="· 若Bot 添加群过多，需要引入授权系统，请启用authMS插件。Bot 已内置此插件，请仔细阅读说明文档进行配置。"></a>· 若Bot 添加群过多，需要引入授权系统，请启用<a href="https://github.com/pcrbot/authMS" target="_blank" rel="noopener"><strong>authMS</strong></a>插件。Bot 已内置此插件，请仔细阅读说明文档进行配置。</h3><h3 id="·-可自定义的内容"><a href="#·-可自定义的内容" class="headerlink" title="· 可自定义的内容"></a>· 可自定义的内容</h3><ul>
+<li><p><code>modules/botchat/botchat.py</code>：这是<strong>bot的轻量语言库</strong>，可自行添加语句和回复，源文件里已包含范例。不同bot的人格差异化也基于此体现。</p>
+</li>
+<li><p><code>modules/explosion/exo.py</code>：这是<strong>爆裂魔法</strong>，可自行更改日调用上限，也可以自行魔改添加更多语音。</p>
+</li>
+<li><p><code>modules/generator-image/</code>：这是<strong>表情包生成器</strong>，可在<code>meme</code>里自行添加更多表情包。</p>
+</li>
+<li><p><code>modules/HELP</code>：这是Bot 的<strong>帮助文档</strong>，可自行更改文本内容。</p>
+</li>
+<li><p><code>hoshino/config/hourcall.py</code>：这是<strong>整点时报</strong>的文本内容，可自行更改，也可自行仿照格式添加。</p>
+</li>
+<li><p><code>modules/pcrwarn</code>：这是<strong>定时提醒</strong>，可自行更改提醒时间，提醒内容。</p>
+</li>
+<li><p><code>modules/priconne/gacha/</code>：这是<strong>模拟抽卡</strong>，可在<code>gacha.py</code>中自行更改抽卡次数日上限，还可在<code>config.json</code>中自行更改卡池内容。</p>
+</li>
+<li><p><code>modules/setu/setu.py</code>：这是<strong>涩图</strong>，可自行更改日调用上限。</p>
+</li>
+<li><p><code>modules/wcloud/</code>：这是<strong>随机网抑云</strong>，可在<code>nt_words.json</code>中自行更改语录文本。</p>
+</li>
+</ul>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h3 id="Q：为什么我的Bot-发不出图片-语音？"><a href="#Q：为什么我的Bot-发不出图片-语音？" class="headerlink" title="Q：为什么我的Bot 发不出图片/语音？"></a>Q：为什么我的Bot 发不出图片/语音？</h3><h3 id="A：请检查资源路径RES-DIR是否设置正确，目录Resources下该图片-语音是否存在"><a href="#A：请检查资源路径RES-DIR是否设置正确，目录Resources下该图片-语音是否存在" class="headerlink" title="A：请检查资源路径RES_DIR是否设置正确，目录Resources下该图片/语音是否存在"></a>A：请检查资源路径<code>RES_DIR</code>是否设置正确，目录<code>Resources</code>下该图片/语音是否存在</h3><h3 id="Q：为什么我的Bot-没有反应？"><a href="#Q：为什么我的Bot-没有反应？" class="headerlink" title="Q：为什么我的Bot 没有反应？"></a>Q：为什么我的Bot 没有反应？</h3><h3 id="A：请查看窗口显示的日志。"><a href="#A：请查看窗口显示的日志。" class="headerlink" title="A：请查看窗口显示的日志。"></a>A：请查看窗口显示的日志。</h3><ul>
+<li><h4 id="若日志显示正常，请查看在准备工作步骤中是否放通端口。"><a href="#若日志显示正常，请查看在准备工作步骤中是否放通端口。" class="headerlink" title="若日志显示正常，请查看在准备工作步骤中是否放通端口。"></a>若日志显示正常，请查看在<a href=""><strong>准备工作</strong></a>步骤中是否放通端口。</h4></li>
+<li><h4 id="若日志有报错信息，请复制报错信息到搜索引擎解决。"><a href="#若日志有报错信息，请复制报错信息到搜索引擎解决。" class="headerlink" title="若日志有报错信息，请复制报错信息到搜索引擎解决。"></a>若日志有报错信息，请复制报错信息到搜索引擎解决。</h4></li>
+<li><h4 id="若日志无反应，请在该窗口输入回车-按下Enter键-，查看日志是否有反应。若日志仍无反应，请查看在部署步骤-4-修改以下几个文件的配置中的文件是否正确配置"><a href="#若日志无反应，请在该窗口输入回车-按下Enter键-，查看日志是否有反应。若日志仍无反应，请查看在部署步骤-4-修改以下几个文件的配置中的文件是否正确配置" class="headerlink" title="若日志无反应，请在该窗口输入回车(按下Enter键)，查看日志是否有反应。若日志仍无反应，请查看在部署步骤 - 4.修改以下几个文件的配置中的文件是否正确配置"></a>若日志无反应，请在该窗口输入回车<code>(按下Enter键)</code>，查看日志是否有反应。若日志仍无反应，请查看在<a href=""><strong>部署步骤 - 4.修改以下几个文件的配置</strong></a>中的文件是否正确配置</h4></li>
+<li><h4 id="若端口已经放通，请尝试其它指令；若部分指令有回应，说明bot-正常运行中，只是部分消息被tx吞了。若所有指令都无回应，请重新运行双击安装依赖"><a href="#若端口已经放通，请尝试其它指令；若部分指令有回应，说明bot-正常运行中，只是部分消息被tx吞了。若所有指令都无回应，请重新运行双击安装依赖" class="headerlink" title="若端口已经放通，请尝试其它指令；若部分指令有回应，说明bot 正常运行中，只是部分消息被tx吞了。若所有指令都无回应，请重新运行双击安装依赖"></a>若端口已经放通，请尝试其它指令；若部分指令有回应，说明bot 正常运行中，只是部分消息被tx吞了。若所有指令都无回应，请重新运行<code>双击安装依赖</code></h4></li>
+<li><h4 id="若所有方式都无法让Bot-做出反应，请尝试重新部署Bot。"><a href="#若所有方式都无法让Bot-做出反应，请尝试重新部署Bot。" class="headerlink" title="若所有方式都无法让Bot 做出反应，请尝试重新部署Bot。"></a>若所有方式都无法让Bot 做出反应，请尝试重新部署Bot。</h4></li>
+</ul>
+<h3 id="Q：Bot-的权限是怎么设定的？"><a href="#Q：Bot-的权限是怎么设定的？" class="headerlink" title="Q：Bot 的权限是怎么设定的？"></a>Q：Bot 的权限是怎么设定的？</h3><ul>
+<li><h3 id="A：基于HoshinoBot的功能，设定主人为最高权限priv-SUPERUSER，群主为仅次于主人的第二权限priv-OWNER，群管理为更次一等的权限priv-ADMIN，群员为最低权限priv-NORMAL。-黑-白名单不考虑在内-主人可以在-bot-py里设定多个"><a href="#A：基于HoshinoBot的功能，设定主人为最高权限priv-SUPERUSER，群主为仅次于主人的第二权限priv-OWNER，群管理为更次一等的权限priv-ADMIN，群员为最低权限priv-NORMAL。-黑-白名单不考虑在内-主人可以在-bot-py里设定多个" class="headerlink" title="A：基于HoshinoBot的功能，设定主人为最高权限priv.SUPERUSER，群主为仅次于主人的第二权限priv.OWNER，群管理为更次一等的权限priv.ADMIN，群员为最低权限priv.NORMAL。(黑/白名单不考虑在内) 主人可以在_bot_.py里设定多个"></a>A：基于HoshinoBot的功能，设定主人为<strong>最高</strong>权限<code>priv.SUPERUSER</code>，群主为仅次于主人的第二权限<code>priv.OWNER</code>，群管理为更次一等的权限<code>priv.ADMIN</code>，群员为最低权限<code>priv.NORMAL</code>。(黑/白名单不考虑在内) 主人可以在<code>_bot_.py</code>里设定多个</h3></li>
+<li><h3 id="A：而基于Yobot的功能，需要在面板中单独设定群员公会战管理员和成员，默认群员为成员，公会战管理员可以设置多个，但主人只能设定一个"><a href="#A：而基于Yobot的功能，需要在面板中单独设定群员公会战管理员和成员，默认群员为成员，公会战管理员可以设置多个，但主人只能设定一个" class="headerlink" title="A：而基于Yobot的功能，需要在面板中单独设定群员公会战管理员和成员，默认群员为成员，公会战管理员可以设置多个，但主人只能设定一个"></a>A：而基于Yobot的功能，需要在面板中单独设定群员<code>公会战管理员</code>和<code>成员</code>，默认群员为<code>成员</code>，<code>公会战管理员</code>可以设置<strong>多个</strong>，但<code>主人</code>只能设定<strong>一个</strong></h3></li>
+</ul>
+<h3 id="Q：有什么其他的Bug吗？"><a href="#Q：有什么其他的Bug吗？" class="headerlink" title="Q：有什么其他的Bug吗？"></a>Q：有什么其他的Bug吗？</h3><h3 id="A：目前使用的cqhttp-mirai-0-2-3-embedded-all插件发送的语音文件仅支持-amr-mp3，且-mp3-在移动端QQ将错误显示时长，在PC端无法播放"><a href="#A：目前使用的cqhttp-mirai-0-2-3-embedded-all插件发送的语音文件仅支持-amr-mp3，且-mp3-在移动端QQ将错误显示时长，在PC端无法播放" class="headerlink" title="A：目前使用的cqhttp-mirai-0.2.3-embedded-all插件发送的语音文件仅支持.amr/mp3，且 .mp3 在移动端QQ将错误显示时长，在PC端无法播放"></a>A：目前使用的<code>cqhttp-mirai-0.2.3-embedded-all</code>插件发送的语音文件仅支持.amr/mp3，且 <code>.mp3</code> 在移动端QQ将错误显示时长，在PC端无法播放</h3><h3 id="Q：以后的更新维护？"><a href="#Q：以后的更新维护？" class="headerlink" title="Q：以后的更新维护？"></a>Q：以后的更新维护？</h3><h3 id="A：您可以自行访问Mirai项目-，HoshinoBot项目，Yobot项目，cqhttp-mirai-插件和-众多bot插件-来进行更新。"><a href="#A：您可以自行访问Mirai项目-，HoshinoBot项目，Yobot项目，cqhttp-mirai-插件和-众多bot插件-来进行更新。" class="headerlink" title="A：您可以自行访问Mirai项目 ，HoshinoBot项目，Yobot项目，cqhttp-mirai 插件和 众多bot插件 来进行更新。"></a>A：您可以自行访问<a href="https://github.com/mamoe/mirai" target="_blank" rel="noopener">Mirai</a>项目 ，<a href="https://github.com/Ice-Cirno/HoshinoBot" target="_blank" rel="noopener">HoshinoBot</a>项目，<a href="https://github.com/pcrbot/yobot" target="_blank" rel="noopener">Yobot</a>项目，<a href="https://github.com/yyuueexxiinngg/cqhttp-mirai" target="_blank" rel="noopener">cqhttp-mirai</a> 插件和 众多<a href="https://www.pcrbot.com/">bot插件</a> 来进行更新。</h3><h3 id="Q：还有什么注意事项？"><a href="#Q：还有什么注意事项？" class="headerlink" title="Q：还有什么注意事项？"></a>Q：还有什么注意事项？</h3><h3 id="A：请勿滥用Bot。"><a href="#A：请勿滥用Bot。" class="headerlink" title="A：请勿滥用Bot。"></a>A：请勿滥用Bot。</h3><h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><h3 id="本人非专业程序员，如本篇指南有错误，请及时告知我。"><a href="#本人非专业程序员，如本篇指南有错误，请及时告知我。" class="headerlink" title="本人非专业程序员，如本篇指南有错误，请及时告知我。"></a>本人非专业程序员，如本篇指南有错误，请及时告知我。</h3><h3 id="本篇指南搭载的Bot-模块-均根据本人喜好进行取舍，世面上还有很多非常优秀的Bot-插件，请自行探寻。"><a href="#本篇指南搭载的Bot-模块-均根据本人喜好进行取舍，世面上还有很多非常优秀的Bot-插件，请自行探寻。" class="headerlink" title="本篇指南搭载的Bot 模块 均根据本人喜好进行取舍，世面上还有很多非常优秀的Bot 插件，请自行探寻。"></a>本篇指南搭载的Bot 模块 均根据本人喜好进行取舍，世面上还有很多非常优秀的Bot 插件，请自行探寻。</h3><h2 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h2><h3 id="骨干部分"><a href="#骨干部分" class="headerlink" title="骨干部分"></a>骨干部分</h3><p><strong>HoshinoBot</strong>：<a href="https://github.com/Ice-Cirno/HoshinoBot" target="_blank" rel="noopener">https://github.com/Ice-Cirno/HoshinoBot</a>  作者：<a href="https://github.com/Ice-Cirno" target="_blank" rel="noopener">@Ice-Cirno</a></p>
+<p><strong>Yobot</strong>：<a href="http://yobot.win/" target="_blank" rel="noopener">http://yobot.win/</a>  作者：<a href="https://github.com/yuudi" target="_blank" rel="noopener">@yuudi</a></p>
+<p><strong>Mirai</strong>：<a href="https://github.com/mamoe/mirai" target="_blank" rel="noopener">https://github.com/mamoe/mirai</a>  作者：<a href="https://github.com/mamoe" target="_blank" rel="noopener">@Mamoe Technologies
+</a>  </p>
+<p><strong>cqhttp-mirai</strong>：<a href="https://github.com/yyuueexxiinngg/cqhttp-mirai" target="_blank" rel="noopener">https://github.com/yyuueexxiinngg/cqhttp-mirai</a>  作者：<a href="https://github.com/yyuueexxiinngg" target="_blank" rel="noopener">@yyuueexxiinngg</a></p>
+<h3 id="插件部分"><a href="#插件部分" class="headerlink" title="插件部分"></a>插件部分</h3><ul>
+<li><a href="https://github.com/Chendihe4975" target="_blank" rel="noopener"><strong>Dihe Chen</strong></a>  </li>
+<li><a href="https://github.com/var-mixer" target="_blank" rel="noopener"><strong>var</strong></a>  </li>
+<li><a href="https://github.com/xhl6666" target="_blank" rel="noopener"><strong>xhl6699</strong></a>  </li>
+<li><a href="https://github.com/Watanabe-Asa" target="_blank" rel="noopener"><strong>Watanabe-Asa</strong></a>  </li>
+<li><a href="https://github.com/laipz8200" target="_blank" rel="noopener"><strong>-LAN-</strong></a>  </li>
+<li><a href="https://github.com/Cappuccilo" target="_blank" rel="noopener"><strong>Cappuccilo</strong></a>  </li>
+<li><a href="https://github.com/yuyumoko" target="_blank" rel="noopener"><strong>yuyumoko</strong></a>  </li>
+<li><a href="https://github.com/H-K-Y" target="_blank" rel="noopener"><strong>H-K-Y</strong></a>  </li>
+<li><a href="https://github.com/zyujs" target="_blank" rel="noopener"><strong>ZhouYuan</strong></a><br>…</li>
+</ul>
+<h3 id="资源部分"><a href="#资源部分" class="headerlink" title="资源部分"></a>资源部分</h3><p><strong>干炸里脊资源站</strong>: <a href="https://redive.estertion.win/" target="_blank" rel="noopener">https://redive.estertion.win/</a></p>
+<p><strong>公主连结Re: Dive Fan Club - 硬核的竞技场数据分析站</strong>: <a href="https://pcrdfans.com/" target="_blank" rel="noopener">https://pcrdfans.com/</a></p>
+<p><strong>Pcrbot - pcrbot相关仓库</strong>: <a href="https://www.pcrbot.com/">https://www.pcrbot.com/</a></p>
+<h3 id="本项目基于GNU通用公共授权3-0-开源"><a href="#本项目基于GNU通用公共授权3-0-开源" class="headerlink" title="本项目基于GNU通用公共授权3.0 开源"></a>本项目基于<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">GNU通用公共授权3.0</a> 开源</h3>
+      </section>
+
+      <section class="article-footer">
+        
+      </section>
+
+      <section class="article-navs">
+        
+<nav class="card-container card-article-nav">
+  <div class="card-list">
+    
+      <div id="article-nav-newer" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(/images/banner-ayumi.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/pcr-clan-battle-analyzer/"></a>
+          <strong class="article-nav-caption">Newer</strong>
+          <p class="article-nav-title">
+            
+              工会战数据分析
+            
+          </p>
+        </article>
+      </div>
+    
+    
+      <div id="article-nav-older" class="card-item img">
+        <article>
+          
+            <div class="card-cover" style="background-image: url(/images/banner-ayumi.jpg)"></div>
+          
+          <a class="card-link article-nav-link" href="/clanbattle_report/"></a>
+          <strong class="article-nav-caption">Older</strong>
+          <p class="article-nav-title">
+            
+              yobot 离职报告
+            
+          </p>
+        </article>
+      </div>
+    
+  </div>
+</nav>
+
+      </section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+     
+    <p>&copy; 2020 <a href="/" target="_blank">pcrbot</a></p>
+
+    
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+    
+    <!--
+    <div class="footer-container__texts">
+      <p>ヽ｀、ヽ｀｀、ヽ｀ヽ｀、、ヽ｀ヽ、ヽ｀、ヽ｀｀、ヽ、｀｀、、ヽ｀ヽ、｀｀、、ヽ｀ヽ、｀ヽ、｀ヽ、｀ヽ</p>
+      <p>｀、ヽ｀｀、ヽ、｀｀｀、｀、ヽ🌙｀｀、｀ヽ｀ヽ、ヽ｀、ヽ｀ヽ、ヽ｀、ヽ｀ヽ、ヽ｀、ヽ｀｀、｀ヽ、｀</p>
+      <p>｀、｀｀、｀、ヽ｀｀、、ヽヽ｀、｀ヽ｀ヽ、ヽ｀、ヽ｀ヽ、ヽ｀、、、ヽヽ、｀｀、、ヽ｀、ヽ｀｀、ヽ｀ヽ｀</p>
+      <p>ヽ｀、｀｀、｀、ヽ｀｀、、ヽヽ｀、｀、、ヽヽ、｀Time waits for on one 🍓｀、、ヽ｀、ヽ｀｀、ヽ｀ヽ｀</p>
+      <p>｀ヽ｀｀、ヽ｀ヽ｀、、ヽ｀ヽ｀ヽ｀ヽ、ヽ｀、ヽ｀｀、ヽ、｀｀、、ヽ｀ヽ、｀｀、、ヽ｀ヽ、｀ヽ、｀ヽ、｀ヽ</p>
+    </div>
+    -->
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+  <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+  <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+</svg> 
+  </div>
+
+  
+  
+
+
+
+
+<!-- waterfall 瀑布流 start -->
+
+<script src="/lib/waterfall.min.js"></script>
+
+<script type="text/javascript">
+
+const waterfalls = document.querySelectorAll(".waterfall-container");
+
+if (waterfalls && waterfalls.length > 0) {
+  waterfalls.forEach((waterfall, index) => {
+    let cls = "waterfall-container-" + index;
+    waterfall.classList.add(cls);
+    initWaterfall(cls, waterfall);
+  });
+}
+
+function initWaterfall(selector, el) {
+  const options = {};
+  if (Object.keys(el.dataset).length > 0) {
+    for (let k in el.dataset) {
+      options[k] = el.dataset[k];
+    }
+  }
+  waterfall(`.${selector}`, options);
+}
+</script>
+<!-- waterfall 瀑布流 end -->
+
+
+  <!-- zoom start -->
+  
+<script src="/lib/zoom.min.js"></script>
+
+  <script type="text/javascript">
+    document.querySelector(".article-content") && zoom(".article-content");
+  </script>
+  <!-- zoom end -->
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
