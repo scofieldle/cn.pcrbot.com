@@ -336,8 +336,8 @@ vim hoshino/config/__bot__.py
 <p>若您是在 vultr 或者其它境外厂商购买的服务器, 您的服务器可能会有中文乱码的现象, 您可以对照 <a href="https://github.com/Ice-Cirno/HoshinoBot/blob/master/hoshino/config_example/__bot__.py" target="_blank" rel="noopener">这里</a> 的中文注释修改您的配置。</p>
 <h3 id="获取静态资源"><a href="#获取静态资源" class="headerlink" title="获取静态资源"></a>获取静态资源</h3><p>获取合成图片所需要的图包 :</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> ~/HoshinoBot
-<span class="token function">wget</span> https://drive.di.he.cn/res.tar.gz
-<span class="token comment" spellcheck="true">#微软, 行 !</span>
+<span class="token comment" spellcheck="true"># wget https://drive.di.he.cn/res.tar.gz （暂时挂了）</span>
+<span class="token function">wget</span> https://download.yobot.win/hoshinobot/res.tar.gz
 <span class="token function">tar</span> xf res.tar.gz</code></pre>
 <p>安装新版 jjc 查询合成图片所需要的字体 :</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#↓↓↓ CentOS 请先执行 ↓↓↓</span>
@@ -345,7 +345,8 @@ yum -y <span class="token function">install</span> fontconfig
 <span class="token comment" spellcheck="true">#↑↑↑ Ubuntu 和 Debian 请无视 ↑↑↑</span>
 
 <span class="token function">mkdir</span> -p /usr/shared/fonts/chinese
-<span class="token function">wget</span> https://drive.di.he.cn/ttc.tar.gz
+<span class="token comment" spellcheck="true"># wget https://drive.di.he.cn/ttc.tar.gz （暂时挂了）</span>
+<span class="token function">wget</span> https://download.yobot.win/hoshinobot/ttc.tar.gz
 <span class="token function">tar</span> zxvf ./ttc.tar.gz -C /usr/shared/fonts/chinese
 mkfontscale
 mkfontdir</code></pre>
@@ -625,7 +626,7 @@ yarn start</code></pre>
 <h2 id="编写功能"><a href="#编写功能" class="headerlink" title="编写功能"></a>编写功能</h2><p>如果你没有学过 Python , 请先阅读 <a href="https://www.liaoxuefeng.com/wiki/1016959663602400" target="_blank" rel="noopener">廖雪峰的 Python3 教程</a> 至 异步 IO 中的 <code>协程</code> 一节。</p>
 <p>如果你学过 Python , 请阅读 <a href="https://github.com/pcrbot/hoshinobot-development-documentation" target="_blank" rel="noopener">HoshinoBot 开发文档 ( 社区版 )</a> 。</p>
 <h2 id="加入我们"><a href="#加入我们" class="headerlink" title="加入我们"></a>加入我们</h2><p>如果你希望为社区贡献代码, 你可以熟悉 git 的使用后, 加入 <a href="https://github.com/pcrbot" target="_blank" rel="noopener">pcrbot 的 github 组织</a> 。</p>
-<p>如果你想加入我们, 你可以与 <a href="mailto:&#x6d;&#x69;&#x63;&#104;&#x69;&#107;&#x61;&#x77;&#x61;&#x63;&#104;&#x69;&#x6e;&#64;&#x6f;&#117;&#x74;&#108;&#111;&#111;&#107;&#46;&#x63;&#111;&#x6d;">&#x6d;&#x69;&#x63;&#104;&#x69;&#107;&#x61;&#x77;&#x61;&#x63;&#104;&#x69;&#x6e;&#64;&#x6f;&#117;&#x74;&#108;&#111;&#111;&#107;&#46;&#x63;&#111;&#x6d;</a> 联系。</p>
+<p>如果你想加入我们, 你可以与 <a href="mailto:&#x6d;&#105;&#99;&#x68;&#105;&#x6b;&#x61;&#119;&#x61;&#x63;&#104;&#x69;&#x6e;&#x40;&#111;&#117;&#116;&#x6c;&#111;&#111;&#x6b;&#46;&#99;&#x6f;&#109;">&#x6d;&#105;&#99;&#x68;&#105;&#x6b;&#x61;&#119;&#x61;&#x63;&#104;&#x69;&#x6e;&#x40;&#111;&#117;&#116;&#x6c;&#111;&#111;&#x6b;&#46;&#99;&#x6f;&#109;</a> 联系。</p>
 <h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p>本项目需致谢 <a href="https://github.com/Adpex" target="_blank" rel="noopener">Adpex</a>, <a href="https://github.com/AkiraXie" target="_blank" rel="noopener">Aspirin</a> <a href="https://github.com/Lancercmd" target="_blank" rel="noopener">Lancercmd</a>, <a href="https://github.com/Ice-Cirno" target="_blank" rel="noopener">Ice-Cirno</a>, <a href="https://github.com/ishkong" target="_blank" rel="noopener">ishkong</a>, <a href="https://github.com/kkbllt" target="_blank" rel="noopener">thgsohack</a>, <a href="https://github.com/111234567890" target="_blank" rel="noopener">yoshino</a>, <a href="https://github.com/yuudi" target="_blank" rel="noopener">yuudi</a> 等人。</p>
 
       </section>
