@@ -128,7 +128,10 @@
       
 
       <section class="article-entry">
-        <h2 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h2><p>目前, 为公主连结玩家定制的 qq 群聊机器人 ( 以 <a href="https://github.com/pcrbot/yobot" target="_blank" rel="noopener">yobot</a> 和 <a href="https://github.com/Ice-Cirno/HoshinoBot" target="_blank" rel="noopener">HoshinoBot</a> 最具代表性 ) 已有非常多用户。它们可以提供一些诸如 公会战管理, 竞技场查询 等功能的应答, 为公主连结玩家提供了非常有用的帮助。</p>
+        <hr>
+<p>title: Linux 下部署一个公主连结 qq 群聊机器人<br>date: 2020-09-22 23:38:28<br>tags:</p>
+<hr>
+<h2 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h2><p>目前, 为公主连结玩家定制的 qq 群聊机器人 ( 以 <a href="https://github.com/pcrbot/yobot" target="_blank" rel="noopener">yobot</a> 和 <a href="https://github.com/Ice-Cirno/HoshinoBot" target="_blank" rel="noopener">HoshinoBot</a> 最具代表性 ) 已有非常多用户。它们可以提供一些诸如 公会战管理, 竞技场查询 等功能的应答, 为公主连结玩家提供了非常有用的帮助。</p>
 <p>事实上, 这两个 bot 的代码均已开源, 任何人都可以自行搭建并根据自己的实际需要进行定制。</p>
 <p>当然, 这需要你有一点基础, 你需要有</p>
 <blockquote>
@@ -224,15 +227,16 @@ pip3 install --upgrade pip
 <p><strong>go-cqhttp 目前正在快速更新迭代, 本教程给出的链接可能不是最新版。</strong><br>你可以在 <a href="https://github.com/Mrs4s/go-cqhttp/releases" target="_blank" rel="noopener">这里</a> 获取到最新版的下载地址。</p>
 <pre class=" language-shell"><code class="language-shell">cd
 mkdir mirai&&cd mirai
-wget https://github.com/Mrs4s/go-cqhttp/releases/download/v0.9.33/go-cqhttp-v0.9.33-linux-amd64.tar.gz
-tar xf go-cqhttp-v0.9.33-linux-amd64.tar.gz
+wget https://github.com/Mrs4s/go-cqhttp/releases/download/v0.9.34/go-cqhttp-v0.9.34-linux-amd64.tar.gz
+tar xf go-cqhttp-v0.9.34-linux-amd64.tar.gz
 
 chmod +x go-cqhttp
 
 ./go-cqhttp
-#首次运行 go-cqhttp , 会在当前目录下生成两个文件, 其中 device.json 保存设备信息, config.hjson 是 go-cqhttp 的配置文件</code></pre>
+#首次运行 go-cqhttp , 会在当前目录下生成配置文件 config.hjson , 如果你的机器人登录成功, 还会生成用于保存设备信息的 device.json </code></pre>
 <h3 id="go-cqhttp-的配置文件"><a href="#go-cqhttp-的配置文件" class="headerlink" title="go-cqhttp 的配置文件"></a>go-cqhttp 的配置文件</h3><p>config.hjson :</p>
 <p>hjson 支持注释, 生成的 config.hjson 有非常详细的注释, 此处不再赘述。</p>
+<p><del>这注释给我看傻了。</del></p>
 <p>推荐修改的配置项 :</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
     force_fragmented<span class="token operator">:</span> <span class="token boolean">true</span>
@@ -247,9 +251,9 @@ chmod +x go-cqhttp
     <span class="token property">"proc_version"</span><span class="token operator">:</span> <span class="token string">"xxx"</span><span class="token punctuation">,</span> // 无需考虑的配置项
     <span class="token property">"imei"</span><span class="token operator">:</span> <span class="token string">"xxx"</span> // 无需考虑的配置项
 <span class="token punctuation">}</span></code></pre>
-<p>当设备种类设定为 Android Pad 时, bot 无法接收 <code>group_notify</code> 事件、无法接收口令红包信息 ( 红包标题和运气王等 )。此时, 用于部署 bot 的账号不能在别的设备上用 QQ HD 登录。</p>
+<p>当设备种类设定为 Android Pad 时, 功能无限制。此时, 用于部署 bot 的账号不能在别的设备上用 QQ HD 登录。</p>
 <p>当设备种类设定为 Android 手机 时, 功能无限制。此时, 用于部署 bot 的账号不能在别的设备上用手机 QQ 登录。</p>
-<p>当设备种类设定为 Android 手表 时, bot 无法接收 <code>group_notify</code> 事件、无法接收口令红包信息, 也无法收取消息撤回时间。<del>此时, 用于部署 bot 的账号不能在 Android 手表上登录。</del> ( 真的有人用手表吗 )</p>
+<p>当设备种类设定为 Android 手表 时, bot 无法接收 <code>group_notify</code> 事件、无法接收口令红包信息, 也无法收取消息撤回时间。<del>此时, 用于部署 bot 的账号不能在 Android 手表上登录。</del> ( 所以真的有人用手表吗 )</p>
 <h3 id="配置-go-cqhttp-反向-ws-配置"><a href="#配置-go-cqhttp-反向-ws-配置" class="headerlink" title="配置 go-cqhttp 反向 ws 配置"></a>配置 go-cqhttp 反向 ws 配置</h3><p>给出两种示例, </p>
 <p>第一种  : <br>以 HoshinoBot 为例, HoshinoBot 的默认端口是 <code>8080</code> , 因此 go-cqhttp 的反向 ws 上报地址应为 <code>ws://127.0.0.1:8080/ws/</code> </p>
 <pre class=" language-json"><code class="language-json">    ws_reverse_servers<span class="token operator">:</span> <span class="token punctuation">[</span>
@@ -277,7 +281,7 @@ git clone https://github.com/Ice-Cirno/HoshinoBot.git
 cd HoshinoBot
 cp -r hoshino/config_example hoshino/config
 
-pip3 install -r https://cn-pan.di.he.cn/require-full.txt
+pip3 install -r https://di.he.cn/requirements.txt
 #境内服务器可以通过加上参数 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 加快下载速度
 
 vim hoshino/config/__bot__.py
@@ -290,7 +294,7 @@ wget https://drive.di.he.cn/res.tar.gz
 #↑↑↑ 境内服务器别看了, 下不动 ↑↑↑
 #微软, 行 ! 
 
-#如果你在境内服务器部署, 你应该这样
+#如果你使用境内服务器部署, 你应该这样
 wget https://cn-pan.di.he.cn/res.tar.gz
 
 tar xf res.tar.gz</code></pre>
@@ -302,12 +306,13 @@ yum -y install fontconfig
 mkdir -p /usr/share/fonts/chinese
 
 #↓↓↓ 境外服务器请执行 ↓↓↓
-https://drive.di.he.cn/msyh.tar.gz
+wget https://drive.di.he.cn/msyh.tar.gz
+#↑↑↑ 境内下不动 ↑↑↑
 
-#↓↓↓ 境外服务器请执行 ↓↓↓
-https://cn-pan.di.he.cn/msyh.tar.gz
+#↓↓↓ 境内服务器请执行 ↓↓↓
+wget https://cn-pan.di.he.cn/msyh.tar.gz
 
-tar zxvf ./ttc.tar.gz -C /usr/share/fonts/chinese
+tar zxvf ./msyh.tar.gz -C /usr/share/fonts/chinese
 mkfontscale
 mkfontdir</code></pre>
 <h3 id="测试-bot-是否搭建成功"><a href="#测试-bot-是否搭建成功" class="headerlink" title="测试 bot 是否搭建成功"></a>测试 bot 是否搭建成功</h3><p>尝试运行 bot , 看看其是否能工作。</p>
@@ -322,7 +327,9 @@ cd ~/mirai
 
 #可能需要异地登录验证, 在验证完后用 ./go-cqhttp 重新运行
 
-#然后, 使用组合键 Ctrl + a ,d 挂起这个窗口</code></pre>
+#验证码可能有点阴间 ( bushi )
+
+#成功登陆后, 使用组合键 Ctrl + a ,d 挂起这个窗口</code></pre>
 <p>2, 启动 <code>HoshinoBot</code> :</p>
 <pre class=" language-shell"><code class="language-shell">screen -S hoshino
 #创建一个新的窗口用于运行 HoshinoBot
@@ -333,11 +340,11 @@ python3 run.py
 <p>如果到这里为止一切正常, HoshinoBot 的控制台应该会输出类似于这样的一条日志 :</p>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">[</span><span class="token datetime number">2020-09-21 22:30:45</span><span class="token punctuation">,</span><span class="token number">435</span><span class="token punctuation">]</span> 127.0.0.1<span class="token punctuation">:</span>56363 GET /ws/ 1.1 101 <span class="token punctuation">-</span> <span class="token number">114514</span></code></pre>
 <p>恭喜你成功搭建了 HoshinoBot , 现在立刻在群里 艾特 你的 bot 并发送一句 <code>kkp</code> 吧！</p>
-<h3 id="获取-yobot"><a href="#获取-yobot" class="headerlink" title="获取 yobot"></a>获取 yobot</h3><p>两种安装 yobot 的方法。这里只写一种。</p>
-<h4 id="源码运行"><a href="#源码运行" class="headerlink" title="源码运行"></a>源码运行</h4><p>首先修改 go-cqhttp 的示例, 使其向 <code>ws://127.0.0.1:9222/ws/</code> 上报事件, 下面的配置文件可供参考</p>
+<h3 id="获取-yobot"><a href="#获取-yobot" class="headerlink" title="获取 yobot"></a>获取 yobot</h3><p>两种安装 yobot 的方法。这里只写一种。<br>原因是第二种安装方法在未来将不被支持。</p>
+<h4 id="源码运行"><a href="#源码运行" class="headerlink" title="源码运行"></a>源码运行</h4><p>首先修改 go-cqhttp 的示例并重启, 使其向 <code>ws://127.0.0.1:9222/ws/</code> 上报事件, 下面的配置文件可供参考</p>
 <pre class=" language-json"><code class="language-json">    ws_reverse_servers<span class="token operator">:</span> <span class="token punctuation">[</span>
         <span class="token punctuation">{</span>
-            enabled<span class="token operator">:</span> <span class="token boolean">false</span>
+            enabled<span class="token operator">:</span> <span class="token boolean">true</span>
             reverse_url<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">8080</span>/ws/
             reverse_api_url<span class="token operator">:</span> <span class="token string">""</span>
             reverse_event_url<span class="token operator">:</span> <span class="token string">""</span>
@@ -345,7 +352,7 @@ python3 run.py
         <span class="token punctuation">}</span>
 
         <span class="token punctuation">{</span>
-            enabled<span class="token operator">:</span> <span class="token boolean">false</span>
+            enabled<span class="token operator">:</span> <span class="token boolean">true</span>
             reverse_url<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">9222</span>/ws/
             reverse_api_url<span class="token operator">:</span> <span class="token string">""</span>
             reverse_event_url<span class="token operator">:</span> <span class="token string">""</span>
@@ -361,7 +368,9 @@ screen -S yobot
 #创建一个新窗口用于运行 yobot 
 
 python3 main.py
-sh yobotg.sh</code></pre>
+sh yobotg.sh
+
+#然后, 使用组合键 Ctrl + a , d 挂起这个窗口</code></pre>
 <p>私聊或群聊发送 <code>V</code> 或 <code>ver</code> 或 <code>version</code> , bot 会回复 yobot 版本。</p>
 <p>放通端口, 使 yobot 的 web 能在 9222 端口被外部访问 :</p>
 <pre class=" language-shell"><code class="language-shell">#↓↓↓ Ubuntu 和 Debian 用户请无视 ↓↓↓
@@ -371,24 +380,11 @@ firewall-cmd --reload
 <p>如果你是在大厂租用的服务器, 你的服务器商通常给你的服务器自带了防火墙, 服务器商不同, 开启方法也不相同, 你需要自行去服务商的服务器管理面板放通 9222 端口, 如果你不知道怎么操作, 你可以去谷歌搜索 &lt;你的服务器商的名字&gt; + 放通端口 。</p>
 <p>验证 : </p>
 <p>手机或者电脑访问 <code>http://服务器 ip :9222/</code> , 能打开就算搭建成功。</p>
-<p>使用 <code>python3 ~/HoshinoBot/run.py</code> 运行一次 HoshinoBot , 此时启动日志应有</p>
-<pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">[</span><span class="token datetime number">2020-09-22 18:36:31</span><span class="token punctuation">,</span>967 nonebot<span class="token punctuation">]</span> INFO<span class="token punctuation">:</span> Succeeded to import "hoshino.modules.yobot.yobot"</code></pre>
-<p>接下来使用组合键 Ctrl + C 关闭 Hoshino ,</p>
-<pre class=" language-shell"><code class="language-shell">vim ~/HoshinoBot/hoshino/modules/yobot/yobot/src/client/yobot_data/yobot_config.json
-#修改 public_address 中的字段, 9222 修改为 8080</code></pre>
-<p>接下来, 就可以启动</p>
-<pre class=" language-shell"><code class="language-shell">screen -S bot
-#创建新的用于运行 hoshino + yobot 的窗口
-
-python3 ~/HoshinoBot/run.py
-#启动命令
-
-#然后, 使用组合键 Ctrl + a ,d 挂起这个窗口</code></pre>
 <h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>设置反向代理的一个好处是可以为你的 yobot 的 web 引入 https 支持, https 协议可以通过 ssl 提供加密处理数据、验证对方身份以及数据完整性保护, 是一种安全的传输协议。</p>
 <p>使用反向代理需确定自己有一个域名, 并将域名解析到服务器。</p>
 <p>由中国大陆有特殊的法律, 你的服务器在中国大陆境内且使用的域名未通过备案的话, 你是无法使用 80 或者 443 端口的, 这将造成你的 web 无法被访问。唯二解决方法, 一是先去 <a href="https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E5%9F%9F%E5%90%8D%E5%A4%87%E6%A1%88&fenlei=256&rsv_pq=af08bb33000fc69a&rsv_t=a9b5UmKd%2Fb7J%2FVFVWR7aK3g9nN6PanIhYZ%2Bf5%2FQxGgXMYmVKdxM%2FOyYfSiE&rqlang=cn&rsv_enter=1&rsv_dl=tb&rsv_sug3=14&rsv_sug1=11&rsv_sug7=101&rsv_sug2=0&rsv_btype=i&prefixsug=%25E5%259F%259F%25E5%2590%258D%25E5%25A4%2587%25E6%25A1%2588&rsp=4&inputT=3390&rsv_sug4=3972" target="_blank" rel="noopener">备案</a> , 二是使用境外服务器部署。</p>
 <p><strong>注意 : 有些域名无法备案, 购买域名之前应该先去了解。</strong></p>
-<p>另, 如果你注重自己的隐私, 那我建议你远离阿里云。</p>
+<p>如果你想要保护隐私, <del>那么你应该拒绝国内云</del>。</p>
 <p>下面开始介绍使用 <a href="https://nginx.org/" target="_blank" rel="noopener">nginx</a> 将在 <code>9222</code> 或 <code>8080</code> 端口运行的 yobot 的 web 转发到 80 端口, 默认你已经为你的服务器设置好了解析。</p>
 <h4 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h4><p>目前的 stable 版是 1.18.0, 本教程就以 1.18.0 为例。<br>无论何时我都建议你下载 stable 版, 你可以在 <a href="https://nginx.org/en/download.html" target="_blank" rel="noopener">这里</a> 查看当前的 stable 版。</p>
 <pre class=" language-shell"><code class="language-shell">cd&&wget http://nginx.org/download/nginx-1.18.0.tar.gz
@@ -471,23 +467,21 @@ Before continuing<span class="token punctuation">,</span> verify the record is d
 }</code></pre><p>修改 nginx 的配置文件</p>
 <pre><code>vim /usr/local/nginx/conf/nginx.conf</code></pre><p>需将这个配置文件的内容复制粘贴到 <code>nginx.conf</code> 的第八十一行, 其中的 <code>example.com</code>修改为你自己的域名。</p>
 <p>注意 <code>nginx.conf</code> 是 nginx 的主配置文件, 如果你不知道其各项参数的含义, 不要做多余的修改。建议在修改前对这个文件进行备份。</p>
-<p>2020 / 10 / 21 更新 : <code>nginx.conf</code> 不是 json , 无需加逗号。</p>
 <p>重启 nginx 使其生效</p>
 <pre class=" language-shell"><code class="language-shell">nginx -s reload</code></pre>
 <p>修改 yobot 的配置文件</p>
 <pre class=" language-shell"><code class="language-shell">#源码版
 vim ~/yobot/src/client/yobot_data/yobot_config.json
+
 # public_adress 字段的值修改为 https://example.com/
-#↑↑↑ example.com 替换成你自己的域名 ↑↑↑</code></pre>
+
+#↑↑↑ 此处 example.com 替换成你自己的域名 ↑↑↑</code></pre>
 <h4 id="验证反向代理"><a href="#验证反向代理" class="headerlink" title="验证反向代理"></a>验证反向代理</h4><p>浏览器访问 <code>https://example.com/</code> 应访问到 yobot 的 homepage</p>
 <h4 id="再次提高安全性"><a href="#再次提高安全性" class="headerlink" title="再次提高安全性"></a>再次提高安全性</h4><p>修改 yobot 的配置文件, 仅允许本机监听</p>
 <pre class=" language-shell"><code class="language-shell">#源码版
 vim ~/yobot/src/client/yobot_data/yobot_config.json
 # HOST 字段的值修改为 127.0.0.1
-
-#插件版
-vim ~/HoshinoBot/hoshino/config/__bot__.py
-# HOST 字段的值修改为 127.0.0.1</code></pre>
+#如果你没有做好反向代理的工作, 请你务必不要这样做 !</code></pre>
 <h3 id="获取-cq-picsearcher-bot"><a href="#获取-cq-picsearcher-bot" class="headerlink" title="获取 cq-picsearcher-bot"></a>获取 cq-picsearcher-bot</h3><p>这个项目与公主连结并无关系, 但是功能实在优秀, 用户可以根据自己的需要选择安装。</p>
 <h4 id="安装-nodejs"><a href="#安装-nodejs" class="headerlink" title="安装 nodejs"></a>安装 nodejs</h4><pre class=" language-shell"><code class="language-shell">#CentOS用户请执行:
 curl -sL https://rpm.nodesource.com/setup_12.x | bash - 
@@ -562,8 +556,8 @@ pm2 log go-cqhttp
 <h2 id="编写功能"><a href="#编写功能" class="headerlink" title="编写功能"></a>编写功能</h2><p>如果你没有学过 Python , 请先阅读 <a href="https://www.liaoxuefeng.com/wiki/1016959663602400" target="_blank" rel="noopener">廖雪峰的 Python3 教程</a> 至 异步 IO 中的 <code>协程</code> 一节。</p>
 <p>如果你学过 Python , 请阅读 <a href="https://github.com/pcrbot/hoshinobot-development-documentation" target="_blank" rel="noopener"> HoshinoBot 开发文档 ( 社区版 ) </a> 。</p>
 <h2 id="加入我们"><a href="#加入我们" class="headerlink" title="加入我们"></a>加入我们</h2><p>如果你希望为社区贡献代码, 你可以熟悉 git 的使用后, 加入 <a href="https://github.com/pcrbot" target="_blank" rel="noopener">pcrbot 的 github 组织</a> 。</p>
-<p>如果你想加入我们, 你可以与 <a href="mailto:&#109;&#x69;&#x63;&#104;&#x69;&#107;&#97;&#119;&#x61;&#99;&#x68;&#105;&#x6e;&#x40;&#111;&#117;&#x74;&#x6c;&#x6f;&#x6f;&#107;&#x2e;&#99;&#111;&#x6d;">&#109;&#x69;&#x63;&#104;&#x69;&#107;&#97;&#119;&#x61;&#99;&#x68;&#105;&#x6e;&#x40;&#111;&#117;&#x74;&#x6c;&#x6f;&#x6f;&#107;&#x2e;&#99;&#111;&#x6d;</a> 联系。</p>
-<h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>本项目需致谢 <a href="https://github.com/Adpex" target="_blank" rel="noopener">Adpex</a>, <a href="https://github.com/AkiraXie" target="_blank" rel="noopener">Aspirin</a> <a href="https://github.com/Lancercmd" target="_blank" rel="noopener">Lancercmd</a>, <a href="https://github.com/Ice-Cirno" target="_blank" rel="noopener">Ice-Cirno</a>, <a href="https://github.com/ishkong" target="_blank" rel="noopener">ishkong</a>, <a href="https://github.com/kkbllt" target="_blank" rel="noopener">thgsohack</a>, <a href="https://github.com/WenyiDong" target="_blank" rel="noopener">WenyiDong</a>, <a href="https://github.com/111234567890" target="_blank" rel="noopener">yoshino</a>, <a href="https://github.com/yuudi" target="_blank" rel="noopener">yuudi</a> 等人。</p>
+<p>如果你想加入我们, 你可以与 <a href="mailto:&#109;&#x69;&#99;&#x68;&#105;&#x6b;&#x61;&#x77;&#97;&#99;&#104;&#x69;&#110;&#64;&#x6f;&#117;&#116;&#108;&#x6f;&#111;&#107;&#x2e;&#99;&#x6f;&#109;">&#109;&#x69;&#99;&#x68;&#105;&#x6b;&#x61;&#x77;&#97;&#99;&#104;&#x69;&#110;&#64;&#x6f;&#117;&#116;&#108;&#x6f;&#111;&#107;&#x2e;&#99;&#x6f;&#109;</a> 联系。</p>
+<h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p>本项目需致谢 <a href="https://github.com/Adpex" target="_blank" rel="noopener">Adpex</a>, <a href="https://github.com/AkiraXie" target="_blank" rel="noopener">Aspirin</a> <a href="https://github.com/Lancercmd" target="_blank" rel="noopener">Lancercmd</a>, <a href="https://github.com/Ice-Cirno" target="_blank" rel="noopener">Ice-Cirno</a>, <a href="https://github.com/ishkong" target="_blank" rel="noopener">ishkong</a>, <a href="https://github.com/kkbllt" target="_blank" rel="noopener">thgsohack</a>, <a href="https://github.com/WenyiDong" target="_blank" rel="noopener">WenyiDong</a>, <a href="https://github.com/111234567890" target="_blank" rel="noopener">yoshino</a>, <a href="https://github.com/yuudi" target="_blank" rel="noopener">yuudi</a> 等人。</p>
 
       </section>
 
